@@ -6,7 +6,9 @@ package cc.hyperium.installer.ui
 
 import javafx.geometry.Pos
 import javafx.scene.paint.Color
+import javafx.scene.paint.Paint
 import kfoenix.JFXStylesheet
+import kfoenix.JFXStylesheet.Companion.jfxButtonType
 import tornadofx.*
 
 class InstallerStyles : JFXStylesheet() {
@@ -15,12 +17,16 @@ class InstallerStyles : JFXStylesheet() {
         val darker = c("#202020")
         val descColor = c("#eeeeee")
         val primary = c("#90CAF9")
+        val secondary = c("#FF5252")
 
         val jfxTabPane by cssclass()
+        val coloredTrack by cssclass()
+        val animatedThumb by cssclass()
+        val indeterminateMark by cssclass()
 
         val longButton by cssclass()
+        val selectedButton by cssclass()
         val container by cssclass()
-        val radioContainer by cssclass()
         val spacer by cssclass()
         val title by cssclass()
         val desc by cssclass()
@@ -61,6 +67,10 @@ class InstallerStyles : JFXStylesheet() {
                 fill = Color.BLACK
             }
         }
+        s(slider, textField) {
+            textFill = descColor
+            maxWidth = 200.px
+        }
         longButton {
             prefWidth = 200.px
         }
@@ -71,12 +81,12 @@ class InstallerStyles : JFXStylesheet() {
             spacing = 12.px
             alignment = Pos.CENTER
         }
-        radioContainer {
-            alignment = Pos.TOP_LEFT
-            maxWidth = 200.px
-            jfxRadioButton {
-                alignment = Pos.CENTER
-            }
+        s(thumb, coloredTrack, selectedButton, animatedThumb) {
+            backgroundColor += secondary
+
+        }
+        jfxCheckBox {
+            jfxCheckedColor.set(secondary)
         }
     }
 }

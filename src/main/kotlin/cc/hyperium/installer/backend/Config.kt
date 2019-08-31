@@ -4,8 +4,18 @@
 
 package cc.hyperium.installer.backend
 
-data class Config(
-    var advanced: Boolean = false,
-    var ram: Int = 2,
-    var path: String = ""
-)
+import cc.hyperium.installer.utils.MinecraftUtils
+import javafx.beans.property.SimpleBooleanProperty
+import javafx.beans.property.SimpleIntegerProperty
+import javafx.beans.property.SimpleObjectProperty
+import tornadofx.PropertyDelegate
+
+class Config {
+    val advancedProperty = SimpleBooleanProperty(false)
+    val ramProperty = SimpleIntegerProperty(2)
+    val pathProperty = SimpleObjectProperty(MinecraftUtils.getMinecraftDir().canonicalPath)
+
+    var advanced by PropertyDelegate(advancedProperty)
+    var ram by PropertyDelegate(ramProperty)
+    var path by PropertyDelegate(pathProperty)
+}
