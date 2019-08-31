@@ -21,6 +21,9 @@ class TargetSelectionStage : View() {
         addClass(InstallerStyles.container)
 
         label("Select installation target") { addClass(InstallerStyles.title) }
+        label("Please note that we do not support other third party launchers") { addClass(InstallerStyles.desc) }
+
+        pane { addClass(InstallerStyles.spacer) }
 
         var multimc: JFXButton? = null
         val vanilla = jfxbutton("Vanilla Launcher") {
