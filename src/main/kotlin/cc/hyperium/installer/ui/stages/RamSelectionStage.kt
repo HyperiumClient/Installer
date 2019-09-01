@@ -34,7 +34,7 @@ class RamSelectionStage : View() {
             valueProperty().bindBidirectional(Installer.config.ramProperty)
             enableWhen(Installer.config.advancedProperty)
             min = 1.0
-            max = 16.0
+            max = 4.0
         }
         pane { addClass(InstallerStyles.spacer) }
         jfxbutton("NEXT") {

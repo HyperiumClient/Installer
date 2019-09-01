@@ -37,6 +37,7 @@ class AddonsSelectionStage : View() {
             }
         }
         jfxbutton("Back") {
+            visibleWhen(Installer.config.advancedProperty)
             addClass(InstallerStyles.backButton)
             action {
                 find<InstallerView> { tabPane.selectionModel.selectPrevious() }
