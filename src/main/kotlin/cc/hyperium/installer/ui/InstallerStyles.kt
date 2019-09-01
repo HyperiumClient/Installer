@@ -22,10 +22,11 @@ class InstallerStyles : JFXStylesheet() {
         val jfxTabPane by cssclass()
         val coloredTrack by cssclass()
         val animatedThumb by cssclass()
-        val indeterminateMark by cssclass()
 
         val longButton by cssclass()
         val selectedButton by cssclass()
+        val backButtonContainer by cssclass()
+        val backButton by cssclass()
         val container by cssclass()
         val spacer by cssclass()
         val title by cssclass()
@@ -66,6 +67,14 @@ class InstallerStyles : JFXStylesheet() {
             text {
                 fill = Color.BLACK
             }
+        }
+        backButton {
+            backgroundColor += Color.TRANSPARENT
+            textFill = descColor
+            desc?.also { font = it }
+        }
+        backButtonContainer {
+            spacing = 10.px
         }
         s(slider, textField) {
             textFill = descColor

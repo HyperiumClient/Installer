@@ -49,7 +49,7 @@ object Installer : CoroutineScope {
     }
 
     // TODO: Download latest beta from internet
-    fun fetchHyperium() = javaClass.getResourceAsStream("/assets/client.jar").readBytes()
+    fun fetchHyperium() = javaClass.getResourceAsStream("/assets/client.bin").readBytes()
 
     fun getPlatform() = when (MinecraftUtils.detectTarget(config.path)) {
         InstallTarget.VANILLA -> VanillaPlatform()

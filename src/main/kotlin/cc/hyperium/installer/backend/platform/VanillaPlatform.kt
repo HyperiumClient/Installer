@@ -14,7 +14,8 @@ import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.*
 
-class VanillaPlatform : InstallationPlatform {
+class
+VanillaPlatform : InstallationPlatform {
     private val gson = GsonBuilder()
         .setPrettyPrinting()
         .create()
@@ -61,7 +62,7 @@ class VanillaPlatform : InstallationPlatform {
         profilesFile.writeText(gson.toJson(json))
     }
 
-    private fun getOptiFineVersion() = File(Installer.config.path, "versions")
+    override fun getOptiFineVersion() = File(Installer.config.path, "versions")
         .listFiles { _, name -> name.startsWith("1.8.9-OptiFine_") }
         ?.maxBy { it.lastModified() }
         ?.name

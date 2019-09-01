@@ -47,16 +47,22 @@ class AgreementStage : View() {
                 find<InstallerView> { start() }
             }
         }
+        jfxbutton("Back") {
+            addClass(InstallerStyles.backButton)
+            action {
+                find<InstallerView> { tabPane.selectionModel.selectPrevious() }
+            }
+        }
     }
 
     private fun start() {
         val view = find<InstallerView>()
-        view.root.selectionModel.selectNext()
+        view.tabPane.selectionModel.selectNext()
         Installer.launch {
             val progressStage = find<ProgressStage>()
             val success = Installer.install { runLater { progressStage.status = it } }
             if (success)
-                runLater { view.root.selectionModel.selectNext() }
+                runLater { view.tabPane.selectionModel.selectNext() }
         }
     }
 }

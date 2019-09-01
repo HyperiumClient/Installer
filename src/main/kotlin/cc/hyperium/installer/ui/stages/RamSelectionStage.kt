@@ -40,7 +40,13 @@ class RamSelectionStage : View() {
         jfxbutton("NEXT") {
             addClass(InstallerStyles.longButton)
             action {
-                find<InstallerView> { root.selectionModel.selectNext() }
+                find<InstallerView> { tabPane.selectionModel.selectNext() }
+            }
+        }
+        jfxbutton("Back") {
+            addClass(InstallerStyles.backButton)
+            action {
+                find<InstallerView> { tabPane.selectionModel.selectPrevious() }
             }
         }
     }

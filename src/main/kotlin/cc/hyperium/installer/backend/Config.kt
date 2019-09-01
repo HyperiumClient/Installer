@@ -14,7 +14,7 @@ class Config {
     val advancedProperty = SimpleBooleanProperty(false)
     val ramProperty = SimpleIntegerProperty(2)
     val pathProperty = SimpleObjectProperty(MinecraftUtils.getMinecraftDir().canonicalPath)
-    val optifineProperty = SimpleBooleanProperty(true)
+    val optifineProperty = SimpleBooleanProperty(false)
 
     var advanced by PropertyDelegate(advancedProperty)
     var ram by PropertyDelegate(ramProperty)

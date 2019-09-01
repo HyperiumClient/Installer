@@ -10,4 +10,6 @@ interface InstallationPlatform {
     fun install(lib: ByteArray)
 
     fun installProfile()
+
+    fun getOptiFineVersion(): String?
 }

@@ -41,8 +41,14 @@ class TargetSelectionStage : View() {
                     ConfirmationDialog(
                         "Would you like to continue?",
                         "Your minecraft path is invalid therefore the installer can't install it properly. Would you like to continue?"
-                    ) { find<InstallerView> { root.selectionModel.selectNext() } }.openModal()
-                } else find<InstallerView> { root.selectionModel.selectNext() }
+                    ) { find<InstallerView> { tabPane.selectionModel.selectNext() } }.openModal()
+                } else find<InstallerView> { tabPane.selectionModel.selectNext() }
+            }
+        }
+        jfxbutton("Back") {
+            addClass(InstallerStyles.backButton)
+            action {
+                find<InstallerView> { tabPane.selectionModel.selectPrevious() }
             }
         }
     }

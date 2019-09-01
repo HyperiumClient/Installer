@@ -4,17 +4,15 @@
 
 package cc.hyperium.installer.ui
 
-import cc.hyperium.installer.backend.AddonsSelectionStage
+import cc.hyperium.installer.ui.stages.AddonsSelectionStage
 import cc.hyperium.installer.ui.stages.*
 import javafx.scene.control.TabPane
 import javafx.scene.input.KeyCode
 import kfoenix.jfxtabpane
-import tornadofx.View
-import tornadofx.reloadStylesheetsOnFocus
-import tornadofx.tab
+import tornadofx.*
 
 class InstallerView : View("Hyperium Installer") {
-    override val root = jfxtabpane {
+    val tabPane = jfxtabpane {
         tab(find<WelcomeStage>())
         tab(find<TargetSelectionStage>())
         tab(find<RamSelectionStage>())
@@ -29,6 +27,7 @@ class InstallerView : View("Hyperium Installer") {
         prefWidth = 854.0
         prefHeight = 480.0
     }
+    override val root = tabPane
 
     init {
         icon = resources.imageview("/assets/logo_solid.png", true)
