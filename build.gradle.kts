@@ -2,9 +2,7 @@
  * Copyright (C) 2019 Cubxity. All Rights Reserved.
  */
 
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import edu.sc.seis.launch4j.tasks.Launch4jLibraryTask
-import net.sf.launch4j.ant.Launch4jTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -27,16 +25,13 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    compile("com.github.bkenn:kfoenix:0.1.3")
-    compile("ch.qos.logback:logback-classic:1.3.0-alpha4")
+    implementation("com.github.bkenn:kfoenix:0.1.3")
+    implementation("ch.qos.logback:logback-classic:1.3.0-alpha4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0")
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
-}
-
-tasks.withType<ShadowJar> {
-
 }
 
 tasks.withType<Launch4jLibraryTask> {

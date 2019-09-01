@@ -8,6 +8,8 @@ import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
 import com.sun.management.OperatingSystemMXBean
+import javafx.geometry.Pos
+import javafx.scene.text.TextAlignment
 import kfoenix.jfxbutton
 import kfoenix.jfxslider
 import tornadofx.*
@@ -20,12 +22,17 @@ class RamSelectionStage : View() {
         val av =
             runCatching { (ManagementFactory.getOperatingSystemMXBean() as OperatingSystemMXBean).totalPhysicalMemorySize / 1000000000L }
                 .getOrNull() ?: 0
-        label("Please note that you should leave atleast 2GB for your system. You have ${av}GB.") {
+        label(
+            "Please note that you should leave atleast 2GB for your system. You have ${av}GB.\n" +
+                    "This option is only enabled in advanced mode."
+        ) {
+            textAlignment = TextAlignment.CENTER
             addClass(InstallerStyles.desc)
         }
         pane { addClass(InstallerStyles.spacer) }
         jfxslider {
             valueProperty().bindBidirectional(Installer.config.ramProperty)
+            enableWhen(Installer.config.advancedProperty)
             min = 1.0
             max = 16.0
         }

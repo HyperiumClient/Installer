@@ -4,7 +4,7 @@
 
 package cc.hyperium.installer.utils
 
-enum class InstallerTarget {
+enum class InstallTarget {
     VANILLA,
     MULTIMC
 }
