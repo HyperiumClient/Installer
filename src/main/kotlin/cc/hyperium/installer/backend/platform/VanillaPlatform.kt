@@ -8,6 +8,7 @@ import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.backend.entities.*
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import kotlinx.coroutines.processNextEventInCurrentThread
 import java.io.File
 import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
@@ -25,7 +26,7 @@ VanillaPlatform : InstallationPlatform {
             callback("OptiFine not found. Please install OptiFine before installing Hyperium")
             return false
         } else if (!File(Installer.config.path, "versions/1.8.9").exists()) {
-             callback("1.8.9 not found. Please run 1.8.9 atleast once before installing Hyperium")
+            callback("1.8.9 not found. Please run 1.8.9 atleast once before installing Hyperium")
             return false
         }
         return true
@@ -57,6 +58,10 @@ VanillaPlatform : InstallationPlatform {
         profile.addProperty("type", "custom")
         profile.addProperty("created", instant.toString())
         profile.addProperty("lastUsed", instant.toString())
+        profile.addProperty(
+            "javaArgs",
+            "-Xmx${Installer.config.ram}G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M"
+        )
         profiles.add("Hyperium", profile)
         json.addProperty("selectedProfile", "Hyperium")
         profilesFile.writeText(gson.toJson(json))
