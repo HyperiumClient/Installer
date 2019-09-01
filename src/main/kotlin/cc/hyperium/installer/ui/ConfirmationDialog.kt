@@ -8,7 +8,7 @@ import javafx.geometry.Orientation
 import kfoenix.jfxbutton
 import tornadofx.*
 
-class ConfirmationDialog(private val label: String, private val onConfirmed: () -> Unit) : View(label) {
+class ConfirmationDialog(title: String, private val label: String, private val onConfirmed: () -> Unit) : View(title) {
     override val root = form {
         fieldset(labelPosition = Orientation.VERTICAL) {
             field(label, Orientation.VERTICAL) {

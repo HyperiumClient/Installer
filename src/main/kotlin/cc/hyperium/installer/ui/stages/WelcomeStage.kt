@@ -35,7 +35,10 @@ class WelcomeStage : View() {
             selectedProperty().addListener { _, o, n ->
                 if (!confirmed && n) {
                     isSelected = false
-                    ConfirmationDialog("You should only enable this option if you know what you're doing, would you like to continue?") {
+                    ConfirmationDialog(
+                        "Would you like to continue?",
+                        "You should only enable this option if you know what you're doing, would you like to continue?"
+                    ) {
                         confirmed = true
                         isSelected = true
                     }.openModal()

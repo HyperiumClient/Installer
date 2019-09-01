@@ -5,15 +5,17 @@
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.ui.InstallerStyles
-import tornadofx.View
-import tornadofx.addClass
-import tornadofx.label
-import tornadofx.vbox
+import tornadofx.*
 
 class ProgressStage : View() {
+    private val statusProperty = "Please wait".toProperty()
+    var status: String by PropertyDelegate(statusProperty)
+
     override val root = vbox {
-        label("Installing...") { addClass(InstallerStyles.title) }
-        label("Please wait") {
+        addClass(InstallerStyles.container)
+
+        label("Installing") { addClass(InstallerStyles.title) }
+        label(statusProperty) {
             addClass(InstallerStyles.desc)
         }
     }

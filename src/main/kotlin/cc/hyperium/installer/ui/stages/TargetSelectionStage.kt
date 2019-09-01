@@ -5,11 +5,14 @@
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.Installer
+import cc.hyperium.installer.ui.ConfirmationDialog
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
+import cc.hyperium.installer.utils.MinecraftUtils
 import javafx.scene.text.TextAlignment
 import kfoenix.jfxbutton
 import kfoenix.jfxtextfield
+import kotlinx.coroutines.launch
 import tornadofx.*
 
 class TargetSelectionStage : View() {
@@ -34,8 +37,24 @@ class TargetSelectionStage : View() {
         jfxbutton("NEXT") {
             addClass(InstallerStyles.longButton)
             action {
-                find<InstallerView> { root.selectionModel.selectNext() }
+                if (MinecraftUtils.detectTarget(Installer.config.path) == null) {
+                    ConfirmationDialog(
+                        "Would you like to continue?",
+                        "Your minecraft path is invalid therefore the installer can't install it properly. Would you like to continue?"
+                    ) { start() }.openModal()
+                } else start()
             }
+        }
+    }
+
+    private fun start() {
+        val view = find<InstallerView>()
+        view.root.selectionModel.selectNext()
+        Installer.launch {
+            val progressStage = find<ProgressStage>()
+            val success = Installer.install { progressStage.status = it }
+            if (success)
+                runLater { view.root.selectionModel.selectNext() }
         }
     }
 }

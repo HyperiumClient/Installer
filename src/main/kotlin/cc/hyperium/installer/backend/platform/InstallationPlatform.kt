@@ -7,5 +7,5 @@ package cc.hyperium.installer.backend.platform
 interface InstallationPlatform {
     fun install()
 
-    fun addProfile()
+    fun installProfile()
 }

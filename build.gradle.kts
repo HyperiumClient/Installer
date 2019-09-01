@@ -27,6 +27,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("com.github.bkenn:kfoenix:0.1.3")
     implementation("ch.qos.logback:logback-classic:1.3.0-alpha4")
+    implementation("com.google.code.gson:gson:2.8.5")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0")
 }
 

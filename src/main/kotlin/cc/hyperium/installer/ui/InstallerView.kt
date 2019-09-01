@@ -4,6 +4,7 @@
 
 package cc.hyperium.installer.ui
 
+import cc.hyperium.installer.backend.AddonsSelectionStage
 import cc.hyperium.installer.ui.stages.*
 import javafx.scene.control.TabPane
 import javafx.scene.input.KeyCode
@@ -14,11 +15,12 @@ import tornadofx.tab
 
 class InstallerView : View("Hyperium Installer") {
     override val root = jfxtabpane {
-        tab(WelcomeStage())
-        tab(TargetSelectionStage())
-        tab(RamSelectionStage())
-        tab(ProgressStage())
-        tab(FinishedStage())
+        tab(find<WelcomeStage>())
+        tab(find<TargetSelectionStage>())
+        tab(find<RamSelectionStage>())
+        tab(find<AddonsSelectionStage>())
+        tab(find<ProgressStage>())
+        tab(find<FinishedStage>())
 
         tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
         setOnKeyPressed { if (it.code == KeyCode.TAB && it.isControlDown) it.consume() }
