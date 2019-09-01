@@ -6,5 +6,6 @@ package cc.hyperium.installer.backend.entities
 
 data class Library(
     val name: String,
-    val url: String? = null
+    val url: String? = null,
+    val downloads: Downloads? = null
 )

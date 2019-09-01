@@ -23,15 +23,20 @@ object Installer : CoroutineScope {
      * @return if success
      */
     fun install(callback: (String) -> Unit): Boolean {
-        callback("Starting installation...")
+        callback("Running pre-checks")
         try {
             val plat = getPlatform()
             if (plat == null) {
                 callback("Unable to detect the platform, please try again")
                 return false
             }
+            if (!plat.runChecks(callback)) return false
+
+            callback("Starting installation...")
+            callback("Fetching jar...")
+            val jar = fetchHyperium()
             callback("Installing...")
-            plat.install()
+            plat.install(jar)
             callback("Installing profile...")
             plat.installProfile()
             callback("Installation finished")
@@ -42,6 +47,9 @@ object Installer : CoroutineScope {
         }
         return false
     }
+
+    // TODO: Download latest beta from internet
+    fun fetchHyperium() = javaClass.getResourceAsStream("/assets/client.jar").readBytes()
 
     fun getPlatform() = when (MinecraftUtils.detectTarget(config.path)) {
         InstallTarget.VANILLA -> VanillaPlatform()

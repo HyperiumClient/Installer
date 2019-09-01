@@ -5,7 +5,9 @@
 package cc.hyperium.installer.backend.platform
 
 interface InstallationPlatform {
-    fun install()
+    fun runChecks(callback: (String) -> Unit): Boolean
+
+    fun install(lib: ByteArray)
 
     fun installProfile()
 }

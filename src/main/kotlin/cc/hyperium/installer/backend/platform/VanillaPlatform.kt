@@ -5,39 +5,65 @@
 package cc.hyperium.installer.backend.platform
 
 import cc.hyperium.installer.backend.Installer
-import cc.hyperium.installer.backend.entities.Arguments
-import cc.hyperium.installer.backend.entities.Library
-import cc.hyperium.installer.backend.entities.Version
-import com.google.gson.Gson
+import cc.hyperium.installer.backend.entities.*
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import java.io.File
+import java.lang.IllegalStateException
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.util.*
 
 class VanillaPlatform : InstallationPlatform {
-    override fun install() {
-        val gson = Gson()
-        val time = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-            .format(Date())
-        val libraries = listOf(
-            Library("cc.hyperium:Hyperium:")
-        )
-        val dir = File(Installer.config.path, "versions/Hyperium 1.8.9").apply { mkdirs() }
-        val version = Version(
-            "1.8.9-Hyperium",
-            "release",
-            "1.8.9",
-            "1.8.9",
-            time,
-            time,
-            0,
-            "net.minecraft.launchwrapper.Launch",
-            Arguments(listOf("--tweakClass", "cc.hyperium.launch.HyperiumTweaker")),
-            libraries
-        )
+    private val gson = GsonBuilder()
+        .setPrettyPrinting()
+        .create()
 
+    override fun runChecks(callback: (String) -> Unit): Boolean {
+        if (Installer.config.optifine && getOptiFineVersion() == null) {
+            callback("OptiFine not found. Please install OptiFine before installing Hyperium")
+            return false
+        } else if (!File(Installer.config.path, "versions/1.8.9").exists()) {
+             callback("1.8.9 not found. Please run 1.8.9 atleast once before installing Hyperium")
+            return false
+        }
+        return true
+    }
+
+    override fun install(lib: ByteArray) {
+        val librariesDir = File(Installer.config.path, "libraries/cc/hyperium/Hyperium/LOCAL").apply { mkdirs() }
+        File(librariesDir, "Hyperium-LOCAL.jar").writeBytes(lib)
+
+        val dir = File(Installer.config.path, "versions/Hyperium 1.8.9").apply { mkdirs() }
+        val base = javaClass.getResourceAsStream("/assets/base.json").bufferedReader().readText()
+        val json = gson.fromJson(base, JsonObject::class.java)
+        if (Installer.config.optifine) {
+            val library = JsonObject()
+            library.addProperty("name", "optifine:OptiFine:${getOptiFineVersion()}")
+            json.getAsJsonArray("libraries").add(library)
+        }
+        File(dir, "Hyperium 1.8.9.json").writeText(gson.toJson(json))
     }
 
     override fun installProfile() {
-
+        val profilesFile = File(Installer.config.path, "launcher_profiles.json")
+        val json = gson.fromJson(profilesFile.readText(), JsonObject::class.java)
+        val profiles = json.getAsJsonObject("profiles")
+        val profile = JsonObject()
+        val instant = Instant.ofEpochMilli(System.currentTimeMillis())
+        profile.addProperty("name", "Hyperium 1.8.9")
+        profile.addProperty("lastVersionId", "Hyperium 1.8.9")
+        profile.addProperty("type", "custom")
+        profile.addProperty("created", instant.toString())
+        profile.addProperty("lastUsed", instant.toString())
+        profiles.add("Hyperium", profile)
+        json.addProperty("selectedProfile", "Hyperium")
+        profilesFile.writeText(gson.toJson(json))
     }
+
+    private fun getOptiFineVersion() = File(Installer.config.path, "versions")
+        .listFiles { _, name -> name.startsWith("1.8.9-OptiFine_") }
+        ?.maxBy { it.lastModified() }
+        ?.name
+        ?.replace("-OptiFine", "")
 }

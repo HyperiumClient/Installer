@@ -21,7 +21,7 @@ class TargetSelectionStage : View() {
 
         label("Select installation target") { addClass(InstallerStyles.title) }
         label(
-            "Please note that we only support vanilla and MultiMC launcher.\n" +
+            "Please note that we only support vanilla launcher.\n" +
                     "This option is only enabled in advanced mode."
         ) {
             textAlignment = TextAlignment.CENTER
