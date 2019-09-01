@@ -41,20 +41,9 @@ class TargetSelectionStage : View() {
                     ConfirmationDialog(
                         "Would you like to continue?",
                         "Your minecraft path is invalid therefore the installer can't install it properly. Would you like to continue?"
-                    ) { start() }.openModal()
-                } else start()
+                    ) { find<InstallerView> { root.selectionModel.selectNext() } }.openModal()
+                } else find<InstallerView> { root.selectionModel.selectNext() }
             }
-        }
-    }
-
-    private fun start() {
-        val view = find<InstallerView>()
-        view.root.selectionModel.selectNext()
-        Installer.launch {
-            val progressStage = find<ProgressStage>()
-            val success = Installer.install { progressStage.status = it }
-            if (success)
-                runLater { view.root.selectionModel.selectNext() }
         }
     }
 }

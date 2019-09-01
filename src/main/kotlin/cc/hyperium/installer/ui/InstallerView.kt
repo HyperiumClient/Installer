@@ -19,6 +19,7 @@ class InstallerView : View("Hyperium Installer") {
         tab(find<TargetSelectionStage>())
         tab(find<RamSelectionStage>())
         tab(find<AddonsSelectionStage>())
+        add(find<AgreementStage>())
         tab(find<ProgressStage>())
         tab(find<FinishedStage>())
 
@@ -31,6 +32,5 @@ class InstallerView : View("Hyperium Installer") {
 
     init {
         icon = resources.imageview("/assets/logo_solid.png", true)
-        reloadStylesheetsOnFocus()
     }
 }

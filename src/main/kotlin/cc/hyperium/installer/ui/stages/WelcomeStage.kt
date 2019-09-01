@@ -27,7 +27,11 @@ class WelcomeStage : View() {
         jfxbutton("NEXT") {
             addClass(InstallerStyles.longButton)
             action {
-                find<InstallerView> { root.selectionModel.selectNext() }
+                find<InstallerView> {
+                    if (Installer.config.advanced)
+                        root.selectionModel.selectNext()
+                    else root.selectionModel.select(3)
+                }
             }
         }
         jfxcheckbox("Advanced mode") {

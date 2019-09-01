@@ -8,7 +8,24 @@ import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
 import tornadofx.App
 import tornadofx.launch
+import javax.swing.JOptionPane
+import javax.swing.UIManager
 
 class InstallerApp : App(InstallerView::class, InstallerStyles::class)
 
-fun main() = launch<InstallerApp>()
+fun main() {
+    try {
+        launch<InstallerApp>()
+    } catch (_: NoClassDefFoundError) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
+        } catch (_: Exception) {
+        }
+        JOptionPane.showMessageDialog(
+            null,
+            "Please make sure that JavaFX is installed on your system.",
+            "Class not found",
+            JOptionPane.WARNING_MESSAGE
+        )
+    }
+}

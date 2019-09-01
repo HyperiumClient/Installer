@@ -71,6 +71,22 @@ class InstallerStyles : JFXStylesheet() {
             textFill = descColor
             maxWidth = 200.px
         }
+        textArea {
+            textFill = descColor
+            maxWidth = 400.px
+        }
+
+        scrollBar {
+            backgroundColor += Color.TRANSPARENT
+            prefWidth = 7.px
+            prefHeight = 7.px
+            arrowsVisible = false
+            s(incrementArrow, decrementArrow) {
+                visibility = FXVisibility.HIDDEN
+                maxWidth = 0.px
+                maxHeight = 0.px
+            }
+        }
         longButton {
             prefWidth = 200.px
         }
