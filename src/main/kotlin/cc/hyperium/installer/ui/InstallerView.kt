@@ -22,7 +22,7 @@ class InstallerView : View("Hyperium Installer") {
         tab(find<FinishedStage>())
 
         tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
-        setOnKeyPressed { if (it.code == KeyCode.TAB && it.isControlDown) it.consume() }
+        setOnKeyPressed { if ((it.code == KeyCode.TAB && it.isControlDown) || it.code == KeyCode.LEFT || it.code == KeyCode.RIGHT) it.consume() }
 
         prefWidth = 854.0
         prefHeight = 480.0
