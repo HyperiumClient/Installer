@@ -16,7 +16,8 @@ class InstallerApp : App(InstallerView::class, InstallerStyles::class)
 fun main() {
     try {
         launch<InstallerApp>()
-    } catch (_: NoClassDefFoundError) {
+    } catch (ex: NoClassDefFoundError) {
+        ex.printStackTrace()
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName())
         } catch (_: Exception) {
