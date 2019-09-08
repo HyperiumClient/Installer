@@ -60,7 +60,7 @@ VanillaPlatform : InstallationPlatform {
         profile.addProperty("lastUsed", instant.toString())
         profile.addProperty(
             "javaArgs",
-            "-Xmx${Installer.config.ram}G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M"
+            "-Xmx${Installer.config.ram}G -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=32M -Duser.country=US -Duser.language=en"
         )
         profiles.add("Hyperium", profile)
         json.addProperty("selectedProfile", "Hyperium")
