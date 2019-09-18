@@ -5,8 +5,8 @@
 package cc.hyperium.installer.backend
 
 import cc.hyperium.installer.backend.platform.VanillaPlatform
-import cc.hyperium.installer.utils.InstallTarget
-import cc.hyperium.installer.utils.MinecraftUtils
+import cc.hyperium.installer.shared.utils.InstallTarget
+import cc.hyperium.installer.shared.utils.MinecraftUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

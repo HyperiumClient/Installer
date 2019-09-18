@@ -5,9 +5,14 @@
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.Installer
+import cc.hyperium.installer.shared.entities.addon.Addon
+import cc.hyperium.installer.shared.utils.VersionUtils
 import cc.hyperium.installer.ui.ConfirmationDialog
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
+import com.jfoenix.controls.JFXCheckBox
+import javafx.beans.binding.BooleanBinding
+import javafx.scene.control.Tooltip
 import javafx.stage.FileChooser
 import kfoenix.jfxbutton
 import kfoenix.jfxcheckbox
@@ -27,8 +32,28 @@ class AddonsSelectionStage : View() {
             addClass(InstallerStyles.desc)
         }
         pane { addClass(InstallerStyles.spacer) }
-        jfxcheckbox("OptiFine") { selectedProperty().bindBidirectional(Installer.config.optifineProperty) }
-        // TODO: Addons
+        vbox {
+            jfxcheckbox("OptiFine") {
+                selectedProperty().bindBidirectional(Installer.config.optifineProperty)
+                tooltip = Tooltip("A Minecraft optimization mod.")
+            }
+            Installer.launch {
+                val addons = VersionUtils.getAddonsManifest().addons
+                val checkboxes = mutableMapOf<Addon, JFXCheckBox>()
+                runLater {
+                    addons.forEach {
+                        jfxcheckbox(it.name) {
+                            tooltip = Tooltip("${it.description}\nAuthor(s): ${it.author}")
+                            checkboxes[it] = this
+                        }
+                    }
+                    checkboxes.forEach { (addon, checkbox) ->
+                        checkbox.enableWhen { bindDependency(addon, checkboxes) }
+                    }
+                }
+            }
+            maxWidth = 100.0
+        }
         pane { addClass(InstallerStyles.spacer) }
         jfxbutton("NEXT") {
             addClass(InstallerStyles.longButton)
@@ -44,6 +69,17 @@ class AddonsSelectionStage : View() {
             }
         }
     }
+
+    fun bindDependency(addon: Addon, checkboxes: Map<Addon, JFXCheckBox>) =
+        addon.depends.mapNotNull { dep -> checkboxes.entries.find { it.key.name == dep } }
+            .let {
+                it.firstOrNull()
+                    ?.let { f ->
+                        it.fold(BooleanBinding.booleanExpression(f.value.selectedProperty())) { prop, checkbox ->
+                            prop.and(checkbox.value.selectedProperty())
+                        }
+                    } ?: true.toProperty()
+            }
 
     fun next() {
         if (Installer.config.optifine) {

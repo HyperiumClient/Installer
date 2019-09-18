@@ -4,7 +4,7 @@
 
 package cc.hyperium.installer.backend
 
-import cc.hyperium.installer.utils.MinecraftUtils
+import cc.hyperium.installer.shared.utils.MinecraftUtils
 import javafx.beans.property.SimpleBooleanProperty
 import javafx.beans.property.SimpleIntegerProperty
 import javafx.beans.property.SimpleObjectProperty
