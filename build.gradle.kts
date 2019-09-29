@@ -38,6 +38,5 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Launch4jLibraryTask> {
     jar = "$projectDir/build/libs/hyperium-installer-1.0-all.jar"
     bundledJrePath = "C:\\Program Files (x86)\\Minecraft Launcher\\runtime\\jre-x64"
-    bundledJreAsFallback = true
     mainClassName = "cc.hyperium.installer.HyperiumInstallerKt"
 }
