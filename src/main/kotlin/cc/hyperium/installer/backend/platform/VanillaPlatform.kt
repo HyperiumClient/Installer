@@ -12,15 +12,11 @@
 package cc.hyperium.installer.backend.platform
 
 import cc.hyperium.installer.backend.Installer
-import cc.hyperium.installer.backend.entities.*
+import cc.hyperium.installer.shared.entities.addon.Addon
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import kotlinx.coroutines.processNextEventInCurrentThread
 import java.io.File
-import java.lang.IllegalStateException
-import java.text.SimpleDateFormat
 import java.time.Instant
-import java.util.*
 
 class VanillaPlatform : InstallationPlatform {
     private val gson = GsonBuilder()
@@ -73,9 +69,9 @@ class VanillaPlatform : InstallationPlatform {
         profilesFile.writeText(gson.toJson(json))
     }
 
-    override fun installAddons(addons: Map<String, ByteArray>) {
+    override fun installAddons(addons: Map<Addon, ByteArray>) {
         val addonsDir = File(Installer.config.path, "addons").apply { mkdir() }
-        addons.forEach { (name, bytes) -> File(addonsDir, "$name.jar").writeBytes(bytes) }
+        addons.forEach { (addon, bytes) -> File(addonsDir, "${addon.name}.jar").writeBytes(bytes) }
     }
 
     override fun getOptiFineVersion() = File(Installer.config.path, "versions")

@@ -45,48 +45,69 @@ class InstallerStyles : JFXStylesheet() {
         val reg = loadFont("/assets/fonts/OpenSans-Regular.ttf", 11)
         val title = loadFont("/assets/fonts/OpenSans-Regular.ttf", 18)
 
-        root {
+        s(root, cell, virtualFlow) {
             backgroundColor += dark
         }
+
+        comboBoxPopup {
+            listView {
+                backgroundColor += dark
+            }
+        }
+
+        jfxComboBox {
+            textField {
+                backgroundColor += dark
+            }
+        }
+
         text {
             reg?.let { font = it }
             fill = Color.WHITE
         }
+
         title {
             text {
                 title?.let { font = it }
             }
         }
+
         desc {
             text {
                 desc?.let { font = it }
                 fill = descColor
             }
         }
+
         jfxTabPane {
             tabMaxHeight = 0.px
             tabHeaderArea {
                 visibility = FXVisibility.HIDDEN
             }
         }
+
         jfxButton {
             backgroundColor += primary
             text {
                 fill = Color.BLACK
             }
         }
+
         backButton {
             backgroundColor += Color.TRANSPARENT
             textFill = descColor
             desc?.also { font = it }
         }
+
         backButtonContainer {
             spacing = 10.px
         }
-        s(slider, textField) {
+
+        s(slider, textField, comboBox) {
             textFill = descColor
             maxWidth = 200.px
         }
+
         textArea {
             textFill = descColor
             maxWidth = 400.px
@@ -103,20 +124,24 @@ class InstallerStyles : JFXStylesheet() {
                 maxHeight = 0.px
             }
         }
+
         longButton {
             prefWidth = 200.px
         }
+
         spacer {
             prefHeight = 20.px
         }
+
         container {
             spacing = 12.px
             alignment = Pos.CENTER
         }
+
         s(thumb, coloredTrack, selectedButton, animatedThumb) {
             backgroundColor += secondary
-
         }
+
         jfxCheckBox {
             jfxCheckedColor.set(secondary)
         }

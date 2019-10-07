@@ -20,11 +20,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import org.slf4j.LoggerFactory
 import java.net.URL
+import java.security.MessageDigest
 
 object Installer : CoroutineScope {
     override val coroutineContext = Dispatchers.Default + Job()
 
     private val logger = LoggerFactory.getLogger("Installer")
+    private val sha256 = MessageDigest.getInstance("SHA-256")
     val config = Config()
 
     /**
@@ -63,7 +65,13 @@ object Installer : CoroutineScope {
 
     fun fetchAddons() = VersionUtils.addonsManifest.addons
         .filter { config.addons[it.name]?.value == true }
-        .mapNotNull { runCatching { it.name to URL(it.url).readBytes() }.getOrNull() }
+        .mapNotNull { runCatching { it to URL(it.url).readBytes() }.getOrNull() }
+        .apply {
+            forEach { (addon, bytes) ->
+                if (toHex(sha256.digest(bytes)) != addon.sha256.toLowerCase())
+                    throw SecurityException("Integrity check failed")
+            }
+        }
         .toMap()
 
     // TODO: Download latest beta from internet
@@ -73,4 +81,6 @@ object Installer : CoroutineScope {
         InstallTarget.VANILLA -> VanillaPlatform()
         else -> null
     }
+
+    private fun toHex(bytes: ByteArray) = buildString { bytes.forEach { append("%02x".format(it)) } }
 }

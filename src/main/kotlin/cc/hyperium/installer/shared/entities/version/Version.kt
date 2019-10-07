@@ -24,4 +24,6 @@ data class Version(
     val time: Long,
     val beta: Boolean,
     val sha256: String
-)
+) {
+    override fun toString() = if (beta) "$build b$id" else build
+}

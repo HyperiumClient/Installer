@@ -37,7 +37,7 @@ class WelcomeStage : View() {
                 find<InstallerView> {
                     if (Installer.config.advanced)
                         tabPane.selectionModel.selectNext()
-                    else tabPane.selectionModel.select(3)
+                    else tabPane.selectionModel.select(4)
                 }
             }
         }

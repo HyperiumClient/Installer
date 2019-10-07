@@ -12,6 +12,7 @@
 package cc.hyperium.installer.shared.utils
 
 import cc.hyperium.installer.shared.entities.addon.AddonsManifest
+import cc.hyperium.installer.shared.entities.version.VersionManifest
 import com.google.gson.Gson
 import java.net.URL
 
@@ -21,6 +22,12 @@ object VersionUtils {
         gson.fromJson(
             get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/addons.json"),
             AddonsManifest::class.java
+        )
+    }
+    val versionsManifest by lazy {
+        gson.fromJson(
+            get("https://api.hyperium.cc/versions"),
+            VersionManifest::class.java
         )
     }
 
