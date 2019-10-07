@@ -14,10 +14,12 @@ package cc.hyperium.installer.backend
 import cc.hyperium.installer.backend.platform.VanillaPlatform
 import cc.hyperium.installer.shared.utils.InstallTarget
 import cc.hyperium.installer.shared.utils.MinecraftUtils
+import cc.hyperium.installer.shared.utils.VersionUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import org.slf4j.LoggerFactory
+import java.net.URL
 
 object Installer : CoroutineScope {
     override val coroutineContext = Dispatchers.Default + Job()
@@ -46,6 +48,10 @@ object Installer : CoroutineScope {
             plat.install(jar)
             callback("Installing profile...")
             plat.installProfile()
+            callback("Downloading addons...")
+            val addons = fetchAddons()
+            callback("Installing addons...")
+            plat.installAddons(addons)
             callback("Installation finished")
             return true
         } catch (t: Throwable) {
@@ -54,6 +60,11 @@ object Installer : CoroutineScope {
         }
         return false
     }
+
+    fun fetchAddons() = VersionUtils.addonsManifest.addons
+        .filter { config.addons[it.name]?.value == true }
+        .mapNotNull { runCatching { it.name to URL(it.url).readBytes() }.getOrNull() }
+        .toMap()
 
     // TODO: Download latest beta from internet
     fun fetchHyperium() = javaClass.getResourceAsStream("/assets/client.bin").readBytes()

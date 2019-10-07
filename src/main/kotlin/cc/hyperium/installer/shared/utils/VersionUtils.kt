@@ -17,17 +17,18 @@ import java.net.URL
 
 object VersionUtils {
     private val gson = Gson()
+    val addonsManifest by lazy {
+        gson.fromJson(
+            get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/addons.json"),
+            AddonsManifest::class.java
+        )
+    }
 
     init {
         System.setProperty("http.agent", "Mozilla/5.0 (Hyperium Installer)")
     }
 
     fun isLocal() = javaClass.getResource("/assets/client.bin") != null
-
-    fun getAddonsManifest() = gson.fromJson(
-        get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/addons.json"),
-        AddonsManifest::class.java
-    )
 
     fun get(url: String) = URL(url).readText()
 }

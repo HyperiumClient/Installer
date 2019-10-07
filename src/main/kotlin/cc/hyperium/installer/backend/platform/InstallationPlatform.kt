@@ -18,5 +18,7 @@ interface InstallationPlatform {
 
     fun installProfile()
 
+    fun installAddons(addons: Map<String, ByteArray>)
+
     fun getOptiFineVersion(): String?
 }

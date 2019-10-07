@@ -45,11 +45,12 @@ class AddonsSelectionStage : View() {
                 tooltip = Tooltip("A Minecraft optimization mod.")
             }
             Installer.launch {
-                val addons = VersionUtils.getAddonsManifest().addons
+                val addons = VersionUtils.addonsManifest.addons
                 val checkboxes = mutableMapOf<Addon, JFXCheckBox>()
                 runLater {
                     addons.forEach {
                         jfxcheckbox(it.name) {
+                            Installer.config.addons[it.name] = selectedProperty()
                             tooltip = Tooltip("${it.description}\nAuthor(s): ${it.author}")
                             checkboxes[it] = this
                         }

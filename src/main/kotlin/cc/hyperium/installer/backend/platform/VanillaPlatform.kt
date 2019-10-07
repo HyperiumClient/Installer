@@ -22,8 +22,7 @@ import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.*
 
-class
-VanillaPlatform : InstallationPlatform {
+class VanillaPlatform : InstallationPlatform {
     private val gson = GsonBuilder()
         .setPrettyPrinting()
         .create()
@@ -72,6 +71,11 @@ VanillaPlatform : InstallationPlatform {
         profiles.add("Hyperium", profile)
         json.addProperty("selectedProfile", "Hyperium")
         profilesFile.writeText(gson.toJson(json))
+    }
+
+    override fun installAddons(addons: Map<String, ByteArray>) {
+        val addonsDir = File(Installer.config.path, "addons").apply { mkdir() }
+        addons.forEach { (name, bytes) -> File(addonsDir, "$name.jar").writeBytes(bytes) }
     }
 
     override fun getOptiFineVersion() = File(Installer.config.path, "versions")
