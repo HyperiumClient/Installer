@@ -38,14 +38,24 @@ class VersionSelectionStage : View() {
         pane { addClass(InstallerStyles.spacer) }
 
         jfxcombobox<Version> {
-            Installer.launch {
-                val versions = VersionUtils.versionsManifest.versions
-                    .sortedByDescending { it.time }
-                runLater {
-                    items.addAll(versions)
-                    selectionModel.select(versions.first())
+            Installer.config.versionProperty.bind(selectionModel.selectedItemProperty())
+
+            fun refresh() {
+                Installer.launch {
+                    val versions = VersionUtils.versionsManifest.versions
+                        .sortedByDescending { it.time }
+                        .toMutableList()
+                    if (!Installer.config.advanced)
+                        versions.removeIf { it.beta }
+                    runLater {
+                        items.setAll(versions)
+                        selectionModel.select(versions.first())
+                    }
                 }
             }
+
+            refresh()
+            Installer.config.advancedProperty.onChange { refresh() }
         }
         pane { addClass(InstallerStyles.spacer) }
         jfxbutton("NEXT") {

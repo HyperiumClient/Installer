@@ -11,12 +11,12 @@
 
 package cc.hyperium.installer.ui
 
-import cc.hyperium.installer.ui.stages.AddonsSelectionStage
 import cc.hyperium.installer.ui.stages.*
 import javafx.scene.control.TabPane
 import javafx.scene.input.KeyCode
 import kfoenix.jfxtabpane
-import tornadofx.*
+import tornadofx.View
+import tornadofx.tab
 
 class InstallerView : View("Hyperium Installer") {
     val tabPane = jfxtabpane {

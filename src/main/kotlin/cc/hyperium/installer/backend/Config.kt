@@ -11,6 +11,7 @@
 
 package cc.hyperium.installer.backend
 
+import cc.hyperium.installer.shared.entities.version.Version
 import cc.hyperium.installer.shared.utils.MinecraftUtils
 import javafx.beans.property.BooleanProperty
 import javafx.beans.property.SimpleBooleanProperty
@@ -23,10 +24,12 @@ class Config {
     val ramProperty = SimpleIntegerProperty(2)
     val pathProperty = SimpleObjectProperty(MinecraftUtils.getMinecraftDir().canonicalPath)
     val optifineProperty = SimpleBooleanProperty(false)
+    val versionProperty = SimpleObjectProperty<Version>()
 
     var advanced by PropertyDelegate(advancedProperty)
     var ram by PropertyDelegate(ramProperty)
     var path by PropertyDelegate(pathProperty)
     val optifine by PropertyDelegate(optifineProperty)
     val addons = mutableMapOf<String, BooleanProperty>()
+    var version by PropertyDelegate(versionProperty)
 }

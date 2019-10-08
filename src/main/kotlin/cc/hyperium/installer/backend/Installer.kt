@@ -21,6 +21,7 @@ import kotlinx.coroutines.Job
 import org.slf4j.LoggerFactory
 import java.net.URL
 import java.security.MessageDigest
+import java.util.*
 
 object Installer : CoroutineScope {
     override val coroutineContext = Dispatchers.Default + Job()
@@ -43,17 +44,29 @@ object Installer : CoroutineScope {
             }
             if (!plat.runChecks(callback)) return false
 
+            logger.info("Starting installation")
             callback("Starting installation...")
-            callback("Fetching jar...")
-            val jar = fetchHyperium()
+            val bytes = if (VersionUtils.isLocal()) {
+                logger.info("Fetching hyperium")
+                callback("Fetching Hyperium...")
+                fetchHyperium()
+            } else {
+                callback("Downloading Hyperium...")
+                downloadHyperium()
+            }
+            logger.info("Installing")
             callback("Installing...")
-            plat.install(jar)
+            plat.install(bytes)
+            logger.info("Installing profile")
             callback("Installing profile...")
             plat.installProfile()
+            logger.info("Downloading addons")
             callback("Downloading addons...")
             val addons = fetchAddons()
+            logger.info("Installing addons")
             callback("Installing addons...")
             plat.installAddons(addons)
+            logger.info("Installation finished")
             callback("Installation finished")
             return true
         } catch (t: Throwable) {
@@ -65,16 +78,29 @@ object Installer : CoroutineScope {
 
     fun fetchAddons() = VersionUtils.addonsManifest.addons
         .filter { config.addons[it.name]?.value == true }
-        .mapNotNull { runCatching { it to URL(it.url).readBytes() }.getOrNull() }
+        .mapNotNull {
+            logger.info("Downloading addon: ${it.name}")
+            runCatching { it to URL(it.url).readBytes() }.getOrNull()
+        }
         .apply {
             forEach { (addon, bytes) ->
+                logger.info("Verifying integrity of addon: ${addon.name}")
                 if (toHex(sha256.digest(bytes)) != addon.sha256.toLowerCase())
-                    throw SecurityException("Integrity check failed")
+                    throw SecurityException("Integrity check failed for addon: ${addon.name}")
             }
         }
         .toMap()
 
-    // TODO: Download latest beta from internet
+    fun downloadHyperium(): ByteArray {
+        val ver = config.version
+        logger.info("Downloading Hyperium v${ver.build} b${ver.id} beta: ${ver.beta}")
+        val bytes = URL(ver.url).readBytes()
+        logger.info("Verifying integrity")
+        if (toHex(sha256.digest(bytes)) != ver.sha256.toLowerCase())
+            throw SecurityException("Integrity check failed")
+        return bytes
+    }
+
     fun fetchHyperium() = javaClass.getResourceAsStream("/assets/client.bin").readBytes()
 
     fun getPlatform() = when (MinecraftUtils.detectTarget(config.path)) {
