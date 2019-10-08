@@ -19,6 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import org.slf4j.LoggerFactory
+import java.lang.IllegalStateException
 import java.net.URL
 import java.security.MessageDigest
 import java.util.*
@@ -76,23 +77,23 @@ object Installer : CoroutineScope {
         return false
     }
 
-    fun fetchAddons() = VersionUtils.addonsManifest.addons
-        .filter { config.addons[it.name]?.value == true }
-        .mapNotNull {
+    fun fetchAddons() = VersionUtils.addonsManifest?.addons
+        ?.filter { config.addons[it.name]?.value == true }
+        ?.mapNotNull {
             logger.info("Downloading addon: ${it.name}")
             runCatching { it to URL(it.url).readBytes() }.getOrNull()
         }
-        .apply {
+        ?.apply {
             forEach { (addon, bytes) ->
                 logger.info("Verifying integrity of addon: ${addon.name}")
                 if (toHex(sha256.digest(bytes)) != addon.sha256.toLowerCase())
                     throw SecurityException("Integrity check failed for addon: ${addon.name}")
             }
         }
-        .toMap()
+        ?.toMap() ?: emptyMap()
 
     fun downloadHyperium(): ByteArray {
-        val ver = config.version
+        val ver = config.version ?: throw IllegalStateException("Failed to fetch version manifest")
         logger.info("Downloading Hyperium v${ver.build} b${ver.id} beta: ${ver.beta}")
         val bytes = URL(ver.url).readBytes()
         logger.info("Verifying integrity")

@@ -19,16 +19,20 @@ import java.net.URL
 object VersionUtils {
     private val gson = Gson()
     val addonsManifest by lazy {
-        gson.fromJson(
-            get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/addons.json"),
-            AddonsManifest::class.java
-        )
+        runCatching {
+            gson.fromJson(
+                get("https://raw.githubusercontent.com/HyperiumClient/Hyperium-Repo/master/installer/addons.json"),
+                AddonsManifest::class.java
+            )
+        }.getOrNull()
     }
     val versionsManifest by lazy {
-        gson.fromJson(
-            get("https://api.hyperium.cc/versions"),
-            VersionManifest::class.java
-        )
+        runCatching {
+            gson.fromJson(
+                get("https://api.hyperium.cc/versions"),
+                VersionManifest::class.java
+            )
+        }.getOrNull()
     }
 
     init {

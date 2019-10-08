@@ -27,7 +27,7 @@ class VersionSelectionStage : View() {
         addClass(InstallerStyles.container)
 
         label("Select Hyperium version") { addClass(InstallerStyles.title) }
-        label(
+        val desc = label(
             "We recommend using the latest Hyperium version\n" +
                     "Older versions are unsupported."
         ) {
@@ -42,15 +42,17 @@ class VersionSelectionStage : View() {
 
             fun refresh() {
                 Installer.launch {
-                    val versions = VersionUtils.versionsManifest.versions
-                        .sortedByDescending { it.time }
-                        .toMutableList()
-                    if (!Installer.config.advanced)
-                        versions.removeIf { it.beta }
-                    runLater {
-                        items.setAll(versions)
-                        selectionModel.select(versions.first())
-                    }
+                    val versions = VersionUtils.versionsManifest?.versions
+                        ?.sortedByDescending { it.time }
+                        ?.toMutableList()
+                    if (versions != null) {
+                        if (!Installer.config.advanced)
+                            versions.removeIf { it.beta }
+                        runLater {
+                            items.setAll(versions)
+                            selectionModel.select(versions.first())
+                        }
+                    } else desc.text = "Failed to fetch versions manifest, please check your internet connection."
                 }
             }
 

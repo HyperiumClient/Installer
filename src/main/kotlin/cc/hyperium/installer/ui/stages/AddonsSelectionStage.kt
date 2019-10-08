@@ -35,7 +35,7 @@ class AddonsSelectionStage : View() {
     override val root = vbox {
         addClass(InstallerStyles.container)
         label("Addons") { addClass(InstallerStyles.title) }
-        label("Please note that OptiFine requires it to be installed in the launcher.") {
+        val desc = label("Please note that OptiFine requires it to be installed in the launcher.") {
             addClass(InstallerStyles.desc)
         }
         pane { addClass(InstallerStyles.spacer) }
@@ -45,19 +45,21 @@ class AddonsSelectionStage : View() {
                 tooltip = Tooltip("A Minecraft optimization mod.")
             }
             Installer.launch {
-                val addons = VersionUtils.addonsManifest.addons
+                val addons = VersionUtils.addonsManifest?.addons
                 val checkboxes = mutableMapOf<Addon, JFXCheckBox>()
                 runLater {
-                    addons.forEach {
-                        jfxcheckbox(it.name) {
-                            Installer.config.addons[it.name] = selectedProperty()
-                            tooltip = Tooltip("${it.description}\nAuthor(s): ${it.author}")
-                            checkboxes[it] = this
+                    if (addons != null) {
+                        addons.forEach {
+                            jfxcheckbox(it.name) {
+                                Installer.config.addons[it.name] = selectedProperty()
+                                tooltip = Tooltip("${it.description}\nAuthor(s): ${it.author}")
+                                checkboxes[it] = this
+                            }
                         }
-                    }
-                    checkboxes.forEach { (addon, checkbox) ->
-                        checkbox.enableWhen { bindDependency(addon, checkboxes) }
-                    }
+                        checkboxes.forEach { (addon, checkbox) ->
+                            checkbox.enableWhen { bindDependency(addon, checkboxes) }
+                        }
+                    } else desc.text = "Failed to fetch addons manifest, please check your internet connection."
                 }
             }
             maxWidth = 100.0
