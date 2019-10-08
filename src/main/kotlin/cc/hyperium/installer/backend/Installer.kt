@@ -16,9 +16,11 @@ import cc.hyperium.installer.backend.platform.VanillaPlatform
 import cc.hyperium.installer.shared.utils.InstallTarget
 import cc.hyperium.installer.shared.utils.MinecraftUtils
 import cc.hyperium.installer.shared.utils.VersionUtils
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import org.slf4j.LoggerFactory
 import java.net.URL
 import java.security.MessageDigest
@@ -26,22 +28,27 @@ import java.security.MessageDigest
 object Installer : CoroutineScope {
     override val coroutineContext = Dispatchers.Default + Job()
 
-    private val logger = LoggerFactory.getLogger("Installer")
+    val logger = LoggerFactory.getLogger("Installer")
     private val sha256 = MessageDigest.getInstance("SHA-256")
+    private val gson = Gson()
 
     /**
      * Blocking function to install
      * @return if success
      */
-    fun install(config: Config, callback: (String) -> Unit): Boolean {
+    fun install(config: Config, callback: (String) -> Unit) = async {
+        logger.debug("Path: ${config.path}")
+        logger.debug("Java home: ${System.getProperty("java.home")}")
+        logger.debug("Java version: ${System.getProperty("java.version")}")
         callback("Running pre-checks")
         try {
             val plat = getPlatform(config)
             if (plat == null) {
+                logger.error("Unable to detect platform, path: ${config.path}")
                 callback("Unable to detect the platform, please try again")
-                return false
+                return@async false
             }
-            if (!plat.runChecks(callback)) return false
+            if (!plat.runChecks(callback)) return@async false
 
             logger.info("Starting installation")
             callback("Starting installation...")
@@ -67,16 +74,16 @@ object Installer : CoroutineScope {
             plat.installAddons(addons)
             logger.info("Installation finished")
             callback("Installation finished")
-            return true
+            return@async true
         } catch (t: Throwable) {
             callback("Error: $t")
             logger.error("An error occurred whilst installing", t)
         }
-        return false
+        return@async false
     }
 
     fun fetchAddons(config: Config) = VersionUtils.addonsManifest?.addons
-        ?.filter { config.addons[it.name]?.value == true }
+        ?.filter { config.addons[it.name] == true }
         ?.mapNotNull {
             logger.info("Downloading addon: ${it.name}")
             runCatching { it to URL(it.url).readBytes() }.getOrNull()
@@ -91,7 +98,7 @@ object Installer : CoroutineScope {
         ?.toMap() ?: emptyMap()
 
     fun downloadHyperium(config: Config): ByteArray {
-        val ver = config.version ?: throw IllegalStateException("Failed to fetch version manifest")
+        val ver = config.version
         logger.info("Downloading Hyperium v${ver.build} b${ver.id} beta: ${ver.beta}")
         val bytes = URL(ver.url).readBytes()
         logger.info("Verifying integrity")

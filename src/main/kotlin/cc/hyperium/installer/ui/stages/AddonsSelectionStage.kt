@@ -24,7 +24,9 @@ import javafx.scene.control.Tooltip
 import javafx.stage.FileChooser
 import kfoenix.jfxbutton
 import kfoenix.jfxcheckbox
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import tornadofx.*
 import java.awt.Desktop
 import java.io.File
@@ -52,7 +54,7 @@ class AddonsSelectionStage : View() {
                     if (addons != null) {
                         addons.forEach {
                             jfxcheckbox(it.name) {
-                                JFXConfig.addons[it.name] = selectedProperty()
+                                JFXConfig.addonsProperties[it.name] = selectedProperty()
                                 tooltip = Tooltip("${it.description}\nAuthor(s): ${it.author}")
                                 checkboxes[it] = this
                             }
@@ -103,8 +105,10 @@ class AddonsSelectionStage : View() {
                     Installer.launch {
                         val ver = URL("http://optifine.net/version/1.8.9/HD_U.txt").readText()
                         val fileName = "OptiFine_1.8.9_HD_U_$ver.jar"
-                        Desktop.getDesktop()
-                            .browse(URI("http://optifine.net/adloadx?f=${URLEncoder.encode(fileName)}"))
+                        withContext(Dispatchers.IO) {
+                            Desktop.getDesktop()
+                                .browse(URI("http://optifine.net/adloadx?f=${URLEncoder.encode(fileName)}"))
+                        }
                         val dialog = ConfirmationDialog(
                             "OptiFine installation",
                             "We've opened the download page for you, please download the jar. Once you have finished, press OK to select the jar."

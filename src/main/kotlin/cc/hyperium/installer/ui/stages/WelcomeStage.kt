@@ -44,7 +44,7 @@ class WelcomeStage : View() {
         }
         jfxcheckbox("Advanced mode") {
             var confirmed = false
-            selectedProperty().addListener { _, o, n ->
+            selectedProperty().addListener { _, _, n ->
                 if (!confirmed && n) {
                     isSelected = false
                     ConfirmationDialog(

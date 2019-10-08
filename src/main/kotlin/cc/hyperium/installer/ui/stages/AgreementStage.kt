@@ -69,6 +69,7 @@ class AgreementStage : View() {
         Installer.launch {
             val progressStage = find<ProgressStage>()
             val success = Installer.install(JFXConfig) { runLater { progressStage.status = it } }
+                .await()
             if (success)
                 runLater { view.tabPane.selectionModel.selectNext() }
         }

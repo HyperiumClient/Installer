@@ -26,10 +26,12 @@ object JFXConfig : Config {
     val optifineProperty = SimpleBooleanProperty(false)
     val versionProperty = SimpleObjectProperty<Version>()
 
-    override var advanced by PropertyDelegate(advancedProperty)
+    var advanced by PropertyDelegate(advancedProperty)
     override var ram by PropertyDelegate(ramProperty)
     override var path by PropertyDelegate(pathProperty)
     override var optifine by PropertyDelegate(optifineProperty)
     override var version by PropertyDelegate(versionProperty)
-    override val addons = mutableMapOf<String, BooleanProperty>()
+    val addonsProperties = mutableMapOf<String, BooleanProperty>()
+    override val addons: Map<String, Boolean>
+        get() = addonsProperties.map { it.key to it.value.value }.toMap()
 }

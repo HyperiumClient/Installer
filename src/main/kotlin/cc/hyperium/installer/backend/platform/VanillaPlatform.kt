@@ -11,10 +11,12 @@
 
 package cc.hyperium.installer.backend.platform
 
+import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.backend.config.Config
 import cc.hyperium.installer.shared.entities.addon.Addon
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.time.Instant
 
@@ -42,6 +44,7 @@ class VanillaPlatform(private val config: Config) : InstallationPlatform {
         val base = javaClass.getResourceAsStream("/assets/base.json").bufferedReader().readText()
         val json = gson.fromJson(base, JsonObject::class.java)
         if (config.optifine) {
+            Installer.logger.info("Adding OptiFine to libraries")
             val library = JsonObject()
             library.addProperty("name", "optifine:OptiFine:${getOptiFineVersion()}")
             json.getAsJsonArray("libraries").add(library)
