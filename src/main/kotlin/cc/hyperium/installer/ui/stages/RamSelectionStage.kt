@@ -12,6 +12,7 @@
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.Installer
+import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
 import com.sun.management.OperatingSystemMXBean
@@ -38,8 +39,8 @@ class RamSelectionStage : View() {
         }
         pane { addClass(InstallerStyles.spacer) }
         jfxslider {
-            valueProperty().bindBidirectional(Installer.config.ramProperty)
-            enableWhen(Installer.config.advancedProperty)
+            valueProperty().bindBidirectional(JFXConfig.ramProperty)
+            enableWhen(JFXConfig.advancedProperty)
             min = 1.0
             max = 4.0
         }

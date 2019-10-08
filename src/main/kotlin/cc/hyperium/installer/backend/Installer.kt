@@ -11,6 +11,7 @@
 
 package cc.hyperium.installer.backend
 
+import cc.hyperium.installer.backend.config.Config
 import cc.hyperium.installer.backend.platform.VanillaPlatform
 import cc.hyperium.installer.shared.utils.InstallTarget
 import cc.hyperium.installer.shared.utils.MinecraftUtils
@@ -19,26 +20,23 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import org.slf4j.LoggerFactory
-import java.lang.IllegalStateException
 import java.net.URL
 import java.security.MessageDigest
-import java.util.*
 
 object Installer : CoroutineScope {
     override val coroutineContext = Dispatchers.Default + Job()
 
     private val logger = LoggerFactory.getLogger("Installer")
     private val sha256 = MessageDigest.getInstance("SHA-256")
-    val config = Config()
 
     /**
      * Blocking function to install
      * @return if success
      */
-    fun install(callback: (String) -> Unit): Boolean {
+    fun install(config: Config, callback: (String) -> Unit): Boolean {
         callback("Running pre-checks")
         try {
-            val plat = getPlatform()
+            val plat = getPlatform(config)
             if (plat == null) {
                 callback("Unable to detect the platform, please try again")
                 return false
@@ -53,7 +51,7 @@ object Installer : CoroutineScope {
                 fetchHyperium()
             } else {
                 callback("Downloading Hyperium...")
-                downloadHyperium()
+                downloadHyperium(config)
             }
             logger.info("Installing")
             callback("Installing...")
@@ -63,7 +61,7 @@ object Installer : CoroutineScope {
             plat.installProfile()
             logger.info("Downloading addons")
             callback("Downloading addons...")
-            val addons = fetchAddons()
+            val addons = fetchAddons(config)
             logger.info("Installing addons")
             callback("Installing addons...")
             plat.installAddons(addons)
@@ -77,7 +75,7 @@ object Installer : CoroutineScope {
         return false
     }
 
-    fun fetchAddons() = VersionUtils.addonsManifest?.addons
+    fun fetchAddons(config: Config) = VersionUtils.addonsManifest?.addons
         ?.filter { config.addons[it.name]?.value == true }
         ?.mapNotNull {
             logger.info("Downloading addon: ${it.name}")
@@ -92,7 +90,7 @@ object Installer : CoroutineScope {
         }
         ?.toMap() ?: emptyMap()
 
-    fun downloadHyperium(): ByteArray {
+    fun downloadHyperium(config: Config): ByteArray {
         val ver = config.version ?: throw IllegalStateException("Failed to fetch version manifest")
         logger.info("Downloading Hyperium v${ver.build} b${ver.id} beta: ${ver.beta}")
         val bytes = URL(ver.url).readBytes()
@@ -104,8 +102,8 @@ object Installer : CoroutineScope {
 
     fun fetchHyperium() = javaClass.getResourceAsStream("/assets/client.bin").readBytes()
 
-    fun getPlatform() = when (MinecraftUtils.detectTarget(config.path)) {
-        InstallTarget.VANILLA -> VanillaPlatform()
+    fun getPlatform(config: Config) = when (MinecraftUtils.detectTarget(config.path)) {
+        InstallTarget.VANILLA -> VanillaPlatform(config)
         else -> null
     }
 

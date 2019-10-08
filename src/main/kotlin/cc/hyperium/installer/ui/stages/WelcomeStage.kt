@@ -12,6 +12,7 @@
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.Installer
+import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.ui.ConfirmationDialog
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
@@ -35,7 +36,7 @@ class WelcomeStage : View() {
             addClass(InstallerStyles.longButton)
             action {
                 find<InstallerView> {
-                    if (Installer.config.advanced)
+                    if (JFXConfig.advanced)
                         tabPane.selectionModel.selectNext()
                     else tabPane.selectionModel.select(4)
                 }
@@ -55,7 +56,7 @@ class WelcomeStage : View() {
                     }.openModal()
                 }
             }
-            selectedProperty().bindBidirectional(Installer.config.advancedProperty)
+            selectedProperty().bindBidirectional(JFXConfig.advancedProperty)
             addClass(InstallerStyles.desc)
         }
     }

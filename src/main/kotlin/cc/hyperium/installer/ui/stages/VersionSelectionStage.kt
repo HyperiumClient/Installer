@@ -12,6 +12,7 @@
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.Installer
+import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.shared.entities.version.Version
 import cc.hyperium.installer.shared.utils.VersionUtils
 import cc.hyperium.installer.ui.InstallerStyles
@@ -38,7 +39,7 @@ class VersionSelectionStage : View() {
         pane { addClass(InstallerStyles.spacer) }
 
         jfxcombobox<Version> {
-            Installer.config.versionProperty.bind(selectionModel.selectedItemProperty())
+            JFXConfig.versionProperty.bind(selectionModel.selectedItemProperty())
 
             fun refresh() {
                 Installer.launch {
@@ -46,7 +47,7 @@ class VersionSelectionStage : View() {
                         ?.sortedByDescending { it.time }
                         ?.toMutableList()
                     if (versions != null) {
-                        if (!Installer.config.advanced)
+                        if (!JFXConfig.advanced)
                             versions.removeIf { it.beta }
                         runLater {
                             items.setAll(versions)
@@ -57,7 +58,7 @@ class VersionSelectionStage : View() {
             }
 
             refresh()
-            Installer.config.advancedProperty.onChange { refresh() }
+            JFXConfig.advancedProperty.onChange { refresh() }
         }
         pane { addClass(InstallerStyles.spacer) }
         jfxbutton("NEXT") {

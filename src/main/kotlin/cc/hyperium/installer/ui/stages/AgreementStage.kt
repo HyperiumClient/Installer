@@ -12,6 +12,7 @@
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.Installer
+import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
 import kfoenix.jfxbutton
@@ -67,7 +68,7 @@ class AgreementStage : View() {
         view.tabPane.selectionModel.selectNext()
         Installer.launch {
             val progressStage = find<ProgressStage>()
-            val success = Installer.install { runLater { progressStage.status = it } }
+            val success = Installer.install(JFXConfig) { runLater { progressStage.status = it } }
             if (success)
                 runLater { view.tabPane.selectionModel.selectNext() }
         }

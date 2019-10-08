@@ -12,6 +12,7 @@
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.Installer
+import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.shared.entities.addon.Addon
 import cc.hyperium.installer.shared.utils.VersionUtils
 import cc.hyperium.installer.ui.ConfirmationDialog
@@ -41,7 +42,7 @@ class AddonsSelectionStage : View() {
         pane { addClass(InstallerStyles.spacer) }
         vbox {
             jfxcheckbox("OptiFine") {
-                selectedProperty().bindBidirectional(Installer.config.optifineProperty)
+                selectedProperty().bindBidirectional(JFXConfig.optifineProperty)
                 tooltip = Tooltip("A Minecraft optimization mod.")
             }
             Installer.launch {
@@ -51,7 +52,7 @@ class AddonsSelectionStage : View() {
                     if (addons != null) {
                         addons.forEach {
                             jfxcheckbox(it.name) {
-                                Installer.config.addons[it.name] = selectedProperty()
+                                JFXConfig.addons[it.name] = selectedProperty()
                                 tooltip = Tooltip("${it.description}\nAuthor(s): ${it.author}")
                                 checkboxes[it] = this
                             }
@@ -72,7 +73,7 @@ class AddonsSelectionStage : View() {
             }
         }
         jfxbutton("Back") {
-            visibleWhen(Installer.config.advancedProperty)
+            visibleWhen(JFXConfig.advancedProperty)
             addClass(InstallerStyles.backButton)
             action {
                 find<InstallerView> { tabPane.selectionModel.selectPrevious() }
@@ -92,8 +93,8 @@ class AddonsSelectionStage : View() {
             }
 
     fun next() {
-        if (Installer.config.optifine) {
-            val plat = Installer.getPlatform()
+        if (JFXConfig.optifine) {
+            val plat = Installer.getPlatform(JFXConfig)
             if (plat?.getOptiFineVersion() == null) {
                 ConfirmationDialog(
                     "OptiFine not found",

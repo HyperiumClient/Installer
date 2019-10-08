@@ -12,6 +12,7 @@
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.Installer
+import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.ui.ConfirmationDialog
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
@@ -36,14 +37,14 @@ class TargetSelectionStage : View() {
 
         pane { addClass(InstallerStyles.spacer) }
 
-        jfxtextfield(Installer.config.pathProperty) {
-            editableWhen(Installer.config.advancedProperty)
+        jfxtextfield(JFXConfig.pathProperty) {
+            editableWhen(JFXConfig.advancedProperty)
         }
         pane { addClass(InstallerStyles.spacer) }
         jfxbutton("NEXT") {
             addClass(InstallerStyles.longButton)
             action {
-                if (MinecraftUtils.detectTarget(Installer.config.path) == null) {
+                if (MinecraftUtils.detectTarget(JFXConfig.path) == null) {
                     ConfirmationDialog(
                         "Would you like to continue?",
                         "Your minecraft path is invalid therefore the installer can't install it properly. Would you like to continue?"
