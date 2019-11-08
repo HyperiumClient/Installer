@@ -26,6 +26,9 @@ class CLIConfig(parser: ArgParser) : Config {
     override val version by parser.storing("-v", "--version", help = "Version build number [default: latest beta]") {
         (VersionUtils.versionsManifest ?: throw IllegalStateException("Failed to fetch version manifest"))
             .versions.find { it.build == this } ?: throw IllegalArgumentException("Version not found")
-    }.default { VersionUtils.versionsManifest?.latestBeta ?: throw IllegalStateException("Failed to fetch version manifest") }
+    }.default {
+        VersionUtils.versionsManifest?.latestBeta ?: throw IllegalStateException("Failed to fetch version manifest")
+    }
     override val addons = emptyMap<String, Boolean>()
+    override val forceGui by parser.flagging("-g", "--gui", "--forceGui", help = "Force GUI mode, regardless of support. All CLI options will be ignored.")
 }

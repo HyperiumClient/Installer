@@ -26,7 +26,8 @@ import javax.swing.UIManager
 class InstallerApp : App(InstallerView::class, InstallerStyles::class)
 
 fun main(args: Array<String>) {
-    if (args.isEmpty() && System.console() == null)
+    val arguments = ArgParser(args).parseInto(::CLIConfig)
+    if (arguments.forceGui)
         try {
             launch<InstallerApp>()
         } catch (ex: NoClassDefFoundError) {
