@@ -27,7 +27,7 @@ class InstallerApp : App(InstallerView::class, InstallerStyles::class)
 
 fun main(args: Array<String>) {
     val arguments = ArgParser(args).parseInto(::CLIConfig)
-    if (arguments.forceGui)
+    if ((arguments.forceGui) || (args.isEmpty() && System.console() == null))
         try {
             launch<InstallerApp>()
         } catch (ex: NoClassDefFoundError) {
