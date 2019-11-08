@@ -32,9 +32,11 @@ class VanillaPlatform(private val config: Config) : InstallationPlatform {
     override fun runChecks(callback: (String) -> Unit): Boolean {
         if (config.optifine && getOptiFineVersion() == null) {
             callback("OptiFine not found. Please install OptiFine before installing Hyperium")
+            Installer.logger.error("OptiFine not found. Please install OptiFine before installing Hyperium")
             return false
         } else if (!File(config.path, "versions/1.8.9").exists()) {
             callback("1.8.9 not found. Please run 1.8.9 atleast once before installing Hyperium")
+            Installer.logger.error("1.8.9 not found. Please run 1.8.9 atleast once before installing Hyperium")
             return false
         }
         return true
