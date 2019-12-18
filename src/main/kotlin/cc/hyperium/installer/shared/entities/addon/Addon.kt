@@ -19,5 +19,6 @@ data class Addon(
     val verified: Boolean,
     val sha256: String,
     val url: String,
-    val depends: List<String>
+    val depends: List<String>,
+    val enabled: Boolean
 )

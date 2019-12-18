@@ -60,7 +60,7 @@ class AddonsSelectionStage : View() {
                             }
                         }
                         checkboxes.forEach { (addon, checkbox) ->
-                            checkbox.enableWhen { bindDependency(addon, checkboxes) }
+                            checkbox.enableWhen { bindDependency(addon, checkboxes).and(addon.enabled) }
                         }
                     } else desc.text = "Failed to fetch addons manifest, please check your internet connection."
                 }
