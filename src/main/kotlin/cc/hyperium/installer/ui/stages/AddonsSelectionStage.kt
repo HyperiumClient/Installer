@@ -13,7 +13,7 @@ package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.backend.config.JFXConfig
-import cc.hyperium.installer.backend.util.browse
+import cc.hyperium.installer.backend.util.Desktop
 import cc.hyperium.installer.shared.entities.addon.Addon
 import cc.hyperium.installer.shared.utils.VersionUtils
 import cc.hyperium.installer.ui.ConfirmationDialog
@@ -103,12 +103,16 @@ class AddonsSelectionStage : View() {
                     "We could not find OptiFine 1.8.9 installation. Would you like to download & install it?"
                 ) {
                     Installer.launch {
-                        val ver = URL("http://optifine.net/version/1.8.9/HD_U.txt").readText().lines().first()
+                        val ver = withContext(Dispatchers.IO) {
+                            URL("http://optifine.net/version/1.8.9/HD_U.txt")
+                                .readText().lines().first()
+                        }
                         val fileName = "OptiFine_1.8.9_HD_U_$ver.jar"
                         withContext(Dispatchers.IO) {
-                            val url = "http://optifine.net/adloadx?f=${URLEncoder.encode(fileName)}"
-                            browse(URI(url))
-                            Installer.logger.info("Opening $url with custom browse")
+                            val url = "http://optifine.net/adloadx?f=${URLEncoder.encode(fileName, "UTF-8")}"
+                            Installer.logger.info("Attempting to open $url")
+                            if (!Desktop.browse(URI(url)))
+                                Installer.logger.error("Failed to open $url. Please navigate to $url manually.")
                         }
                         val dialog = ConfirmationDialog(
                             "OptiFine installation",
