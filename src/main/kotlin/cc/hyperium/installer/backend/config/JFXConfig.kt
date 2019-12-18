@@ -25,7 +25,6 @@ object JFXConfig : Config {
     val pathProperty = SimpleObjectProperty(MinecraftUtils.getMinecraftDir().canonicalPath)
     val optifineProperty = SimpleBooleanProperty(false)
     val versionProperty = SimpleObjectProperty<Version>()
-    val forcedProperty = SimpleBooleanProperty(false)
 
     var advanced by PropertyDelegate(advancedProperty)
     override var ram by PropertyDelegate(ramProperty)
@@ -35,5 +34,4 @@ object JFXConfig : Config {
     val addonsProperties = mutableMapOf<String, BooleanProperty>()
     override val addons: Map<String, Boolean>
         get() = addonsProperties.map { it.key to it.value.value }.toMap()
-    override val forceGui by PropertyDelegate(forcedProperty)
 }

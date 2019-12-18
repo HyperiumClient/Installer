@@ -15,8 +15,6 @@ import cc.hyperium.installer.shared.utils.MinecraftUtils
 import cc.hyperium.installer.shared.utils.VersionUtils
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.default
-import java.lang.IllegalArgumentException
-import java.lang.IllegalStateException
 
 class CLIConfig(parser: ArgParser) : Config {
     override val ram by parser.storing("-r", "--ram", help = "Amount of ram (GB) [default: 2]") { toInt() }.default(2)
@@ -30,5 +28,4 @@ class CLIConfig(parser: ArgParser) : Config {
         VersionUtils.versionsManifest?.latestBeta ?: throw IllegalStateException("Failed to fetch version manifest")
     }
     override val addons = emptyMap<String, Boolean>()
-    override val forceGui by parser.flagging("-g", "--gui", "--forceGui", help = "Force GUI mode, regardless of support. All CLI options will be ignored.")
 }
