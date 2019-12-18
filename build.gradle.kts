@@ -6,7 +6,7 @@ import edu.sc.seis.launch4j.tasks.Launch4jLibraryTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.50"
+    kotlin("jvm") version "1.3.61"
     id("com.github.johnrengelman.shadow") version "5.1.0"
     id("edu.sc.seis.launch4j") version "2.4.6"
     application
@@ -30,6 +30,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.3.0-alpha4")
     implementation("com.google.code.gson:gson:2.8.5")
     implementation("com.xenomachina:kotlin-argparser:2.0.7")
+    implementation("org.apache.commons:commons-lang3:3.3.2")
 }
 
 tasks.withType<KotlinCompile> {
