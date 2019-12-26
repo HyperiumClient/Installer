@@ -13,6 +13,7 @@ package cc.hyperium.installer.backend.platform
 
 import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.backend.config.Config
+import cc.hyperium.installer.backend.util.MessageException
 import cc.hyperium.installer.shared.entities.addon.Addon
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
@@ -62,6 +63,7 @@ class VanillaPlatform(private val config: Config) : InstallationPlatform {
         val profilesFile = File(config.path, "launcher_profiles.json")
         val json = gson.fromJson(profilesFile.readText(), JsonObject::class.java)
         val profiles = json.getAsJsonObject("profiles")
+            ?: throw MessageException("Please run Minecraft at least once before installing Hyperium.")
         val profile = JsonObject()
         val instant = Instant.ofEpochMilli(System.currentTimeMillis())
         profile.addProperty("name", "Hyperium 1.8.9")
