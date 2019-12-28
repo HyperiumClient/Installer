@@ -100,7 +100,7 @@ class AddonsSelectionStage : View() {
             if (plat?.getOptiFineVersion() == null) {
                 ConfirmationDialog(
                     "OptiFine not found",
-                    "We could not find OptiFine 1.8.9 installation. Would you like to download & install it?"
+                    "We could not find an OptiFine 1.8.9 installation. Would you like to download & install it?"
                 ) {
                     Installer.launch {
                         val ver = withContext(Dispatchers.IO) {
@@ -116,7 +116,8 @@ class AddonsSelectionStage : View() {
                         }
                         val dialog = ConfirmationDialog(
                             "OptiFine installation",
-                            "We've opened the download page for you, please download the jar. Once you have finished, press OK to select the jar."
+                            "We've opened the download page for you, please download the jar. Once you have finished, press Ok to select the jar.",
+                            true
                         ) {
                             if (plat?.getOptiFineVersion() == null) {
                                 val files = chooseFile(

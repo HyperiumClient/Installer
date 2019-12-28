@@ -12,6 +12,7 @@
 package cc.hyperium.installer.ui
 
 import javafx.geometry.Pos
+import javafx.scene.image.Image
 import javafx.scene.paint.Color
 import javafx.scene.paint.Paint
 import kfoenix.JFXStylesheet
@@ -145,5 +146,7 @@ class InstallerStyles : JFXStylesheet() {
         jfxCheckBox {
             jfxCheckedColor.set(secondary)
         }
+
+        addStageIcon(Image("/assets/logo.png"))
     }
 }

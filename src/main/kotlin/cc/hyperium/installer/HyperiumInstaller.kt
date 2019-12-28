@@ -26,6 +26,9 @@ import javax.swing.UIManager
 class InstallerApp : App(InstallerView::class, InstallerStyles::class)
 
 fun main(args: Array<String>) {
+    // Update to current date when changing version
+    Installer.logger.info("Running Hyperium installer version 1.3/December 28th 2019")
+
     if (args.isEmpty())
         try {
             launch<InstallerApp>()

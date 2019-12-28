@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "cc.hyperium.installer"
-version = "1.2"
+version = "1.3"
 
 application {
     mainClassName = "cc.hyperium.installer.HyperiumInstallerKt"
@@ -25,12 +25,13 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3")
     implementation("com.github.bkenn:kfoenix:0.1.3")
-    implementation("ch.qos.logback:logback-classic:1.3.0-alpha4")
-    implementation("com.google.code.gson:gson:2.8.5")
+    implementation("ch.qos.logback:logback-classic:1.3.0-alpha5")
+    implementation("com.google.code.gson:gson:2.8.6")
     implementation("com.xenomachina:kotlin-argparser:2.0.7")
     implementation("org.apache.commons:commons-lang3:3.3.2")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:5.5.1.201910021850-r")
 }
 
 tasks.withType<KotlinCompile> {
@@ -38,7 +39,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Launch4jLibraryTask> {
-    jar = "$projectDir/build/libs/hyperium-installer-1.2-all.jar"
+    jar = "$projectDir/build/libs/hyperium-installer-1.3-all.jar"
     bundledJrePath = "C:\\Program Files (x86)\\Minecraft Launcher\\runtime\\jre-x64"
     mainClassName = "cc.hyperium.installer.HyperiumInstallerKt"
 }
