@@ -28,4 +28,5 @@ class CLIConfig(parser: ArgParser) : Config {
         VersionUtils.versionsManifest?.latestBeta ?: throw IllegalStateException("Failed to fetch version manifest")
     }
     override val addons = emptyMap<String, Boolean>()
+    override val cli by parser.flagging("--cli", help = "Run the installer through CLI.")
 }

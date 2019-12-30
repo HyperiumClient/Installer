@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "cc.hyperium.installer"
-version = "1.3"
+version = "1.3.1"
 
 application {
     mainClassName = "cc.hyperium.installer.HyperiumInstallerKt"
@@ -38,7 +38,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Launch4jLibraryTask> {
-    jar = "$projectDir/build/libs/hyperium-installer-1.3-all.jar"
+    jar = "$projectDir/build/libs/hyperium-installer-1.3.1-all.jar"
     bundledJrePath = "C:\\Program Files (x86)\\Minecraft Launcher\\runtime\\jre-x64"
     mainClassName = "cc.hyperium.installer.HyperiumInstallerKt"
 }

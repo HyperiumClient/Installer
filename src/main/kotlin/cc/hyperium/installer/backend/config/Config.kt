@@ -19,4 +19,5 @@ interface Config {
     val optifine: Boolean
     val version: Version
     val addons: Map<String, Boolean>
+    val cli: Boolean
 }

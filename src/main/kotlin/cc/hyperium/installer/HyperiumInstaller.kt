@@ -13,8 +13,11 @@ package cc.hyperium.installer
 
 import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.backend.config.CLIConfig
+import cc.hyperium.installer.backend.config.Config
+import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
+import com.jfoenix.skins.JFXCheckBoxOldSkin
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.mainBody
 import kotlinx.coroutines.runBlocking
@@ -27,9 +30,9 @@ class InstallerApp : App(InstallerView::class, InstallerStyles::class)
 
 fun main(args: Array<String>) {
     // Update to current date when changing version
-    Installer.logger.info("Running Hyperium installer version 1.3/December 28th 2019")
+    Installer.logger.info("Running Hyperium installer version 1.3.1/December 30th 2019")
 
-    if (args.isEmpty())
+    if (args.isEmpty() || (System.console() == null && JFXConfig.cli))
         try {
             launch<InstallerApp>()
         } catch (ex: NoClassDefFoundError) {
