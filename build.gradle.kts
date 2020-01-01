@@ -1,5 +1,12 @@
 /*
- * Copyright (C) 2020 Cubxity. All Rights Reserved.
+ * Copyright © 2020 by Sk1er LLC
+ *
+ * All rights reserved.
+ *
+ * Sk1er LLC
+ * 444 S Fulton Ave
+ * Mount Vernon, NY
+ * sk1er.club
  */
 
 import edu.sc.seis.launch4j.tasks.Launch4jLibraryTask
