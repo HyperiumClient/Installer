@@ -1,5 +1,5 @@
 /*
- * Copyright © 2019 by Sk1er LLC
+ * Copyright © 2020 by Sk1er LLC
  *
  * All rights reserved.
  *
@@ -30,7 +30,7 @@ class InstallerApp : App(InstallerView::class, InstallerStyles::class)
 
 fun main(args: Array<String>) {
     // Update to current date when changing version
-    Installer.logger.info("Running Hyperium installer version 1.3.1/December 30th 2019")
+    Installer.logger.info("Running Hyperium installer version 1.3.2/January 1st 2020")
 
     if (args.isEmpty() || (System.console() == null && JFXConfig.cli))
         try {

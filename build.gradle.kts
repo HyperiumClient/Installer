@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Cubxity. All Rights Reserved.
+ * Copyright (C) 2020 Cubxity. All Rights Reserved.
  */
 
 import edu.sc.seis.launch4j.tasks.Launch4jLibraryTask
@@ -13,7 +13,7 @@ plugins {
 }
 
 group = "cc.hyperium.installer"
-version = "1.3.1"
+version = "1.3.2"
 
 application {
     mainClassName = "cc.hyperium.installer.HyperiumInstallerKt"
@@ -38,7 +38,7 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Launch4jLibraryTask> {
-    jar = "$projectDir/build/libs/hyperium-installer-1.3.1-all.jar"
+    jar = "$projectDir/build/libs/hyperium-installer-1.3.2-all.jar"
     bundledJrePath = "C:\\Program Files (x86)\\Minecraft Launcher\\runtime\\jre-x64"
     mainClassName = "cc.hyperium.installer.HyperiumInstallerKt"
 }
