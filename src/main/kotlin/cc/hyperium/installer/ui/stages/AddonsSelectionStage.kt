@@ -131,17 +131,17 @@ class AddonsSelectionStage : View() {
                                     Installer.launch {
                                         run(files.first())
                                         if (plat?.getOptiFineVersion() != null)
-                                            runLater { find<InstallerView> { tabPane.selectionModel.selectNext() } }
+                                            runLater { find<InstallerView> { tabPane.selectionModel.select(5) } }
                                     }
                                 }
-                            } else find<InstallerView> { tabPane.selectionModel.selectNext() }
+                            } else find<InstallerView> { tabPane.selectionModel.select(5) }
                         }
                         runLater { dialog.openModal() }
                     }
                 }.openModal()
-            } else find<InstallerView> { tabPane.selectionModel.selectNext() }
+            } else find<InstallerView> { tabPane.selectionModel.select(5) }
         } else
-            find<InstallerView> { tabPane.selectionModel.selectNext() }
+            find<InstallerView> { tabPane.selectionModel.select(5) }
     }
 
     fun run(jar: File) {
