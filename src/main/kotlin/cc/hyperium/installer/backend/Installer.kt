@@ -12,6 +12,7 @@
 package cc.hyperium.installer.backend
 
 import cc.hyperium.installer.backend.config.Config
+import cc.hyperium.installer.backend.config.JFXConfig.cleanInstall
 import cc.hyperium.installer.backend.platform.VanillaPlatform
 import cc.hyperium.installer.shared.utils.InstallTarget
 import cc.hyperium.installer.shared.utils.MinecraftUtils
@@ -22,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import org.slf4j.LoggerFactory
+import java.io.File
 import java.net.URL
 import java.security.MessageDigest
 
@@ -49,6 +51,19 @@ object Installer : CoroutineScope {
                 return@async false
             }
             if (!plat.runChecks(callback)) return@async false
+
+            if (cleanInstall) {
+                logger.info("Deleting hyperium")
+                callback("Deleting Hyperium...")
+                val hyperiumConfigFolder = File("${config.path}/hyperium")
+                val hyperiumAddonsFolder = File("${config.path}/addons")
+                val hyperiumLibariesFolder = File("${config.path}/libraries/cc/hyperium")
+                val hyperiumVersionFolder = File("${config.path}/versions/Hyperium 1.8.9")
+                hyperiumConfigFolder.deleteRecursively()
+                hyperiumAddonsFolder.deleteRecursively()
+                hyperiumLibariesFolder.deleteRecursively()
+                hyperiumVersionFolder.deleteRecursively()
+            }
 
             logger.info("Starting installation")
             callback("Starting installation...")
