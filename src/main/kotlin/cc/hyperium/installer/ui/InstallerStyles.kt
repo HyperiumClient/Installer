@@ -14,18 +14,15 @@ package cc.hyperium.installer.ui
 import javafx.geometry.Pos
 import javafx.scene.image.Image
 import javafx.scene.paint.Color
-import javafx.scene.paint.Paint
 import kfoenix.JFXStylesheet
-import kfoenix.JFXStylesheet.Companion.jfxButtonType
 import tornadofx.*
 
 class InstallerStyles : JFXStylesheet() {
     companion object {
-        val dark = c("#222222")
-        val darker = c("#202020")
+        val dark = c("#111111")
         val descColor = c("#eeeeee")
-        val primary = c("#90CAF9")
-        val secondary = c("#FF5252")
+        val primary = c("#29B6F6")
+        val secondary = c("#039BE5")
 
         val jfxTabPane by cssclass()
         val coloredTrack by cssclass()
@@ -42,9 +39,9 @@ class InstallerStyles : JFXStylesheet() {
     }
 
     init {
-        val desc = loadFont("/assets/fonts/OpenSans-Regular.ttf", 10)
-        val reg = loadFont("/assets/fonts/OpenSans-Regular.ttf", 11)
-        val title = loadFont("/assets/fonts/OpenSans-Regular.ttf", 18)
+        val desc = loadFont("/assets/fonts/Raleway-Regular.ttf", 10)
+        val reg = loadFont("/assets/fonts/Raleway-Medium.ttf", 11)
+        val title = loadFont("/assets/fonts/Raleway-Regular.ttf", 18)
 
         s(root, cell, virtualFlow) {
             backgroundColor += dark

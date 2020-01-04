@@ -11,14 +11,14 @@
 
 package cc.hyperium.installer.ui.stages
 
-import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.backend.config.JFXConfig
+import cc.hyperium.installer.shared.utils.MinecraftUtils
 import cc.hyperium.installer.ui.ConfirmationDialog
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
-import cc.hyperium.installer.shared.utils.MinecraftUtils
 import javafx.scene.text.TextAlignment
 import kfoenix.jfxbutton
+import kfoenix.jfxcheckbox
 import kfoenix.jfxtextfield
 import tornadofx.*
 
@@ -39,6 +39,23 @@ class TargetSelectionStage : View() {
 
         jfxtextfield(JFXConfig.pathProperty) {
             editableWhen(JFXConfig.advancedProperty)
+        }
+        jfxcheckbox("Clean install") {
+            var confirmed = false
+            selectedProperty().addListener { _, _, n ->
+                if (!confirmed && n) {
+                    isSelected = false
+                    ConfirmationDialog(
+                        "Would you like to continue?",
+                        "Enabling this option will reset all your Hyperium settings!"
+                    ) {
+                        confirmed = true
+                        isSelected = true
+                    }.openModal()
+                }
+            }
+            selectedProperty().bindBidirectional(JFXConfig.cleanInstallProperty)
+            addClass(InstallerStyles.desc)
         }
         pane { addClass(InstallerStyles.spacer) }
         jfxbutton("NEXT") {

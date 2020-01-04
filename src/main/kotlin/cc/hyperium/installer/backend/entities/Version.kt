@@ -11,7 +11,7 @@
 
 package cc.hyperium.installer.backend.entities
 
-data class Version (
+data class Version(
     val id: String,
     val type: String,
     val inheritsFrom: String,

@@ -26,6 +26,7 @@ object JFXConfig : Config {
     val optifineProperty = SimpleBooleanProperty(false)
     val versionProperty = SimpleObjectProperty<Version>()
     val cliProperty = SimpleBooleanProperty(false)
+    val cleanInstallProperty = SimpleBooleanProperty(false)
 
     var advanced by PropertyDelegate(advancedProperty)
     override var ram by PropertyDelegate(ramProperty)
@@ -36,4 +37,5 @@ object JFXConfig : Config {
     override val addons: Map<String, Boolean>
         get() = addonsProperties.map { it.key to it.value.value }.toMap()
     override val cli by PropertyDelegate(cliProperty)
+    override var cleanInstall by PropertyDelegate(cleanInstallProperty)
 }
