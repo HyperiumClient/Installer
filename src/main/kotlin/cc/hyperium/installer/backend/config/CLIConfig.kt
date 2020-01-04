@@ -29,5 +29,5 @@ class CLIConfig(parser: ArgParser) : Config {
     }
     override val addons = emptyMap<String, Boolean>()
     override val cli by parser.flagging("-c", "--cli", help = "Run the installer through CLI.")
-    override val cleanInstall by parser.flagging("-ci", "--cleanInstall", help = "Install Hyperium cleanly")
+    override val cleanInstall by parser.flagging("--clean", help = "Install Hyperium cleanly")
 }
