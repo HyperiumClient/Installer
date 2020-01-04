@@ -14,9 +14,7 @@ package cc.hyperium.installer.ui
 import javafx.geometry.Pos
 import javafx.scene.image.Image
 import javafx.scene.paint.Color
-import javafx.scene.paint.Paint
 import kfoenix.JFXStylesheet
-import kfoenix.JFXStylesheet.Companion.jfxButtonType
 import tornadofx.*
 
 class InstallerStyles : JFXStylesheet() {

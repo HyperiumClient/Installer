@@ -37,5 +37,5 @@ object JFXConfig : Config {
     override val addons: Map<String, Boolean>
         get() = addonsProperties.map { it.key to it.value.value }.toMap()
     override val cli by PropertyDelegate(cliProperty)
-    var cleanInstall by PropertyDelegate(cleanInstallProperty)
+    override var cleanInstall by PropertyDelegate(cleanInstallProperty)
 }

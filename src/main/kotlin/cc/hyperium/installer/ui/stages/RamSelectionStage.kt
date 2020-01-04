@@ -11,12 +11,10 @@
 
 package cc.hyperium.installer.ui.stages
 
-import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
 import com.sun.management.OperatingSystemMXBean
-import javafx.geometry.Pos
 import javafx.scene.text.TextAlignment
 import kfoenix.jfxbutton
 import kfoenix.jfxslider

@@ -11,6 +11,6 @@
 
 package cc.hyperium.installer.backend.entities
 
-data class Downloads (
+data class Downloads(
     val artifact: Artifact
 )

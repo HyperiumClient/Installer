@@ -12,10 +12,10 @@
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.config.JFXConfig
+import cc.hyperium.installer.shared.utils.MinecraftUtils
 import cc.hyperium.installer.ui.ConfirmationDialog
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
-import cc.hyperium.installer.shared.utils.MinecraftUtils
 import javafx.scene.text.TextAlignment
 import kfoenix.jfxbutton
 import kfoenix.jfxcheckbox

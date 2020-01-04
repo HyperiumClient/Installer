@@ -13,11 +13,9 @@ package cc.hyperium.installer
 
 import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.backend.config.CLIConfig
-import cc.hyperium.installer.backend.config.Config
 import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
-import com.jfoenix.skins.JFXCheckBoxOldSkin
 import com.xenomachina.argparser.ArgParser
 import com.xenomachina.argparser.mainBody
 import kotlinx.coroutines.runBlocking

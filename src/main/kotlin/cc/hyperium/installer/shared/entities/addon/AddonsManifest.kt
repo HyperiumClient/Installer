@@ -11,6 +11,6 @@
 
 package cc.hyperium.installer.shared.entities.addon
 
-data class AddonsManifest (
+data class AddonsManifest(
     val addons: List<Addon>
 )

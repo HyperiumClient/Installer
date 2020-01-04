@@ -12,7 +12,6 @@
 package cc.hyperium.installer.backend
 
 import cc.hyperium.installer.backend.config.Config
-import cc.hyperium.installer.backend.config.JFXConfig.cleanInstall
 import cc.hyperium.installer.backend.platform.VanillaPlatform
 import cc.hyperium.installer.shared.utils.InstallTarget
 import cc.hyperium.installer.shared.utils.MinecraftUtils
@@ -52,7 +51,7 @@ object Installer : CoroutineScope {
             }
             if (!plat.runChecks(callback)) return@async false
 
-            if (cleanInstall) {
+            if (config.cleanInstall) {
                 logger.info("Deleting hyperium")
                 callback("Deleting Hyperium...")
                 val hyperiumConfigFolder = File("${config.path}/hyperium")
