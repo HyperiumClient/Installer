@@ -15,8 +15,10 @@ import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.ui.ConfirmationDialog
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
+import javafx.scene.shape.Line
 import kfoenix.jfxbutton
 import kfoenix.jfxcheckbox
+import kfoenix.jfxprogressbar
 import tornadofx.*
 
 class WelcomeStage : View() {
