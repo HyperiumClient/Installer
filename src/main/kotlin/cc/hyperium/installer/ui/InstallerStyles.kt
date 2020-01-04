@@ -19,10 +19,10 @@ import tornadofx.*
 
 class InstallerStyles : JFXStylesheet() {
     companion object {
-        val dark = c("#111111")
+        val dark = c("#222222")
         val descColor = c("#eeeeee")
-        val primary = c("#29B6F6")
-        val secondary = c("#039BE5")
+        val primary = c("#90CAF9")
+        val secondary = c("#90CAF9")
 
         val jfxTabPane by cssclass()
         val coloredTrack by cssclass()
@@ -39,9 +39,9 @@ class InstallerStyles : JFXStylesheet() {
     }
 
     init {
-        val desc = loadFont("/assets/fonts/Raleway-Regular.ttf", 10)
-        val reg = loadFont("/assets/fonts/Raleway-Medium.ttf", 11)
-        val title = loadFont("/assets/fonts/Raleway-Regular.ttf", 18)
+        val desc = loadFont("/assets/fonts/OpenSans-Regular.ttf", 10)
+        val reg = loadFont("/assets/fonts/OpenSans-Regular.ttf", 11)
+        val title = loadFont("/assets/fonts/OpenSans-Regular.ttf", 18)
 
         s(root, cell, virtualFlow) {
             backgroundColor += dark
