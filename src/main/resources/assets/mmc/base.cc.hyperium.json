@@ -1,0 +1,25 @@
+{
+  "+tweakers": [
+    "cc.hyperium.launch.HyperiumTweaker"
+  ],
+  "formatVersion": 1,
+  "libraries": [
+    {
+      "name": "net.minecraft:launchwrapper:1.12"
+    },
+    {
+      "MMC-filename": "Hyperium.jar",
+      "MMC-hint": "local",
+      "name": "cc.hyperium:Hyperium:LOCAL"
+    }
+  ],
+  "mainClass": "net.minecraft.launchwrapper.Launch",
+  "name": "Hyperium",
+  "requires": [
+    {
+      "equals": "1.8.9",
+      "uid": "net.minecraft"
+    }
+  ],
+  "uid": "cc.hyperium"
+}

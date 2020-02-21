@@ -38,6 +38,7 @@ dependencies {
     implementation("com.google.code.gson:gson:2.8.6")
     implementation("com.xenomachina:kotlin-argparser:2.0.7")
     implementation("org.apache.commons:commons-lang3:3.3.2")
+    implementation("org.ow2.asm:asm:7.3.1")
 }
 
 tasks.withType<KotlinCompile> {

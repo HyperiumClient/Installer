@@ -24,6 +24,7 @@ object JFXConfig : Config {
     val ramProperty = SimpleIntegerProperty(2)
     val pathProperty = SimpleObjectProperty(MinecraftUtils.getMinecraftDir().canonicalPath)
     val optifineProperty = SimpleBooleanProperty(false)
+    val optifinePathProperty = SimpleObjectProperty(System.getProperty("user.home"))
     val versionProperty = SimpleObjectProperty<Version>()
     val cliProperty = SimpleBooleanProperty(false)
     val cleanInstallProperty = SimpleBooleanProperty(false)
@@ -32,6 +33,7 @@ object JFXConfig : Config {
     override var ram by PropertyDelegate(ramProperty)
     override var path by PropertyDelegate(pathProperty)
     override var optifine by PropertyDelegate(optifineProperty)
+    override var optifinePath by PropertyDelegate(optifinePathProperty)
     override var version by PropertyDelegate(versionProperty)
     val addonsProperties = mutableMapOf<String, BooleanProperty>()
     override val addons: Map<String, Boolean>

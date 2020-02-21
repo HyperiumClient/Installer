@@ -17,6 +17,7 @@ interface Config {
     val ram: Number
     val path: String
     val optifine: Boolean
+    val optifinePath: String
     val version: Version
     val addons: Map<String, Boolean>
     val cli: Boolean

@@ -27,7 +27,7 @@ object MinecraftUtils {
         if (!f.exists()) return null
         return when {
             File(f, "launcher_profiles.json").exists() -> InstallTarget.VANILLA
-            File("multimc.cfg").exists() -> InstallTarget.MULTIMC
+            File(f, "multimc.cfg").exists() -> InstallTarget.MULTIMC
             else -> null
         }
     }

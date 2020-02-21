@@ -12,6 +12,7 @@
 package cc.hyperium.installer.backend
 
 import cc.hyperium.installer.backend.config.Config
+import cc.hyperium.installer.backend.platform.MultiMCPlatform
 import cc.hyperium.installer.backend.platform.VanillaPlatform
 import cc.hyperium.installer.shared.utils.InstallTarget
 import cc.hyperium.installer.shared.utils.MinecraftUtils
@@ -54,14 +55,7 @@ object Installer : CoroutineScope {
             if (config.cleanInstall) {
                 logger.info("Deleting hyperium")
                 callback("Deleting Hyperium...")
-                val hyperiumConfigFolder = File("${config.path}/hyperium")
-                val hyperiumAddonsFolder = File("${config.path}/addons")
-                val hyperiumLibariesFolder = File("${config.path}/libraries/cc/hyperium")
-                val hyperiumVersionFolder = File("${config.path}/versions/Hyperium 1.8.9")
-                hyperiumConfigFolder.deleteRecursively()
-                hyperiumAddonsFolder.deleteRecursively()
-                hyperiumLibariesFolder.deleteRecursively()
-                hyperiumVersionFolder.deleteRecursively()
+                plat.deleteInstall()
             }
 
             logger.info("Starting installation")
@@ -80,6 +74,9 @@ object Installer : CoroutineScope {
             logger.info("Installing profile")
             callback("Installing profile...")
             plat.installProfile()
+            logger.info("Installing OptiFine")
+            callback("Installing OptiFine...")
+            plat.installOptiFine(File(config.optifinePath))
             logger.info("Downloading addons")
             callback("Downloading addons...")
             val addons = fetchAddons(config)
@@ -125,6 +122,7 @@ object Installer : CoroutineScope {
 
     fun getPlatform(config: Config) = when (MinecraftUtils.detectTarget(config.path)) {
         InstallTarget.VANILLA -> VanillaPlatform(config)
+        InstallTarget.MULTIMC -> MultiMCPlatform(config)
         else -> null
     }
 
