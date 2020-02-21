@@ -25,9 +25,10 @@ class InstallerView : View("Hyperium Installer") {
         tab(find<RamSelectionStage>()) // 2
         tab(find<VersionSelectionStage>()) // 3
         tab(find<AddonsSelectionStage>()) // 4
-        add(find<AgreementStage>()) // 5
-        tab(find<ProgressStage>()) // 6
-        tab(find<FinishedStage>()) // 7
+        tab(find<OptiFineStage>()) // 5
+        add(find<AgreementStage>()) // 6
+        tab(find<ProgressStage>()) // 7
+        tab(find<FinishedStage>()) // 8
 
         tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
         setOnKeyPressed {

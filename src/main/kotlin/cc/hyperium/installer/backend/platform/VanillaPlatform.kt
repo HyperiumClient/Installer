@@ -16,9 +16,13 @@ import cc.hyperium.installer.backend.config.Config
 import cc.hyperium.installer.backend.util.MessageException
 import cc.hyperium.installer.shared.entities.addon.Addon
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import kotlinx.coroutines.launch
 import java.io.File
 import java.time.Instant
+import java.util.zip.ZipFile
 
 class VanillaPlatform(private val config: Config) : InstallationPlatform {
     companion object {
@@ -30,22 +34,20 @@ class VanillaPlatform(private val config: Config) : InstallationPlatform {
         .setPrettyPrinting()
         .create()
 
-    override fun runChecks(callback: (String) -> Unit): Boolean {
-        if (config.optifine && getOptiFineVersion() == null) {
-            callback("OptiFine not found. Please install OptiFine before installing Hyperium")
-            Installer.logger.error("OptiFine not found. Please install OptiFine before installing Hyperium")
-            return false
-        } else if (!File(config.path, "versions/1.8.9").exists()) {
-            callback("1.8.9 not found. Please run 1.8.9 atleast once before installing Hyperium")
-            Installer.logger.error("1.8.9 not found. Please run 1.8.9 atleast once before installing Hyperium")
-            return false
-        }
-        return true
-    }
+    override fun runChecks(callback: (String) -> Unit) = true
 
     override fun install(lib: ByteArray) {
         val librariesDir = File(config.path, "libraries/cc/hyperium/Hyperium/LOCAL").apply { mkdirs() }
-        File(librariesDir, "Hyperium-LOCAL.jar").writeBytes(lib)
+        val file = File(librariesDir, "Hyperium-LOCAL.jar")
+        file.writeBytes(lib)
+        var librariesArray = JsonArray()
+        ZipFile(file).use {
+            val entry = it.getEntry("libraries.base.json")
+            if (entry != null) {
+                val stream = it.getInputStream(entry).bufferedReader()
+                librariesArray = JsonParser.parseString(stream.use { it.readText() }).asJsonArray
+            }
+        }
 
         val dir = File(config.path, "versions/Hyperium 1.8.9").apply { mkdirs() }
         val base = javaClass.getResourceAsStream("/assets/base.json").bufferedReader().readText()
@@ -53,8 +55,14 @@ class VanillaPlatform(private val config: Config) : InstallationPlatform {
         if (config.optifine) {
             Installer.logger.info("Adding OptiFine to libraries")
             val library = JsonObject()
-            library.addProperty("name", "optifine:OptiFine:${getOptiFineVersion()}")
+            library.addProperty("name", "cc.hyperium:OptiFine:LOCAL")
             json.getAsJsonArray("libraries").add(library)
+            json.addProperty("minecraftArguments", json["minecraftArguments"].asString + " --tweakClass optifine.OptiFineForgeTweaker")
+        }
+        json.addProperty("minecraftArguments", json["minecraftArguments"].asString + " --tweakClass cc.hyperium.launch.HyperiumTweaker")
+        val librariesArrayOriginal = json.getAsJsonArray("libraries")
+        for (element in librariesArray) {
+            librariesArrayOriginal.add(element)
         }
         File(dir, "Hyperium 1.8.9.json").writeText(gson.toJson(json))
     }
@@ -86,9 +94,23 @@ class VanillaPlatform(private val config: Config) : InstallationPlatform {
         addons.forEach { (addon, bytes) -> File(addonsDir, "${addon.name}.jar").writeBytes(bytes) }
     }
 
-    override fun getOptiFineVersion() = File(config.path, "versions")
-        .listFiles { _, name -> name.startsWith("1.8.9-OptiFine_") }
-        ?.maxBy { it.lastModified() }
-        ?.name
-        ?.replace("-OptiFine", "")
+    override fun installOptiFine(file: File) {
+        Installer.launch {
+            val dir = File(config.path, "/libraries/cc/hyperium/OptiFine/LOCAL")
+            dir.mkdirs()
+            val jar = File(dir, "OptiFine-LOCAL.jar")
+            file.copyTo(jar, true)
+        }
+    }
+
+    override fun deleteInstall() {
+        val hyperiumConfigFolder = File("${config.path}/hyperium")
+        val hyperiumAddonsFolder = File("${config.path}/addons")
+        val hyperiumLibariesFolder = File("${config.path}/libraries/cc/hyperium")
+        val hyperiumVersionFolder = File("${config.path}/versions/Hyperium 1.8.9")
+        hyperiumConfigFolder.deleteRecursively()
+        hyperiumAddonsFolder.deleteRecursively()
+        hyperiumLibariesFolder.deleteRecursively()
+        hyperiumVersionFolder.deleteRecursively()
+    }
 }

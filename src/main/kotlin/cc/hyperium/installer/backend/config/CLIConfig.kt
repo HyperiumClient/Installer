@@ -21,6 +21,7 @@ class CLIConfig(parser: ArgParser) : Config {
     override val path by parser.storing("-o", "--path", help = "Minecraft path [default: autodetect]")
         .default { MinecraftUtils.getMinecraftDir().canonicalPath }
     override val optifine by parser.flagging("--optifine", help = "Install Optifine")
+    override val optifinePath by parser.storing("--optifinePath", help = "Path to Optifine")
     override val version by parser.storing("-v", "--version", help = "Version build number [default: latest beta]") {
         (VersionUtils.versionsManifest ?: throw IllegalStateException("Failed to fetch version manifest"))
             .versions.find { it.build == this } ?: throw IllegalArgumentException("Version not found")

@@ -1,0 +1,25 @@
+{
+  "+tweakers": [
+    "optifine.OptiFineForgeTweaker"
+  ],
+  "formatVersion": 1,
+  "libraries": [
+    {
+      "name": "net.minecraft:launchwrapper:1.12"
+    },
+    {
+      "MMC-filename": "OptiFine.jar",
+      "MMC-hint": "local",
+      "name": "optifine:OptiFine:LOCAL"
+    }
+  ],
+  "mainClass": "net.minecraft.launchwrapper.Launch",
+  "name": "OptiFine",
+  "requires": [
+    {
+      "equals": "1.8.9",
+      "uid": "net.minecraft"
+    }
+  ],
+  "uid": "optifine.OptiFine"
+}

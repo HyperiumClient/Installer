@@ -12,6 +12,7 @@
 package cc.hyperium.installer.backend.platform
 
 import cc.hyperium.installer.shared.entities.addon.Addon
+import java.io.File
 
 interface InstallationPlatform {
     fun runChecks(callback: (String) -> Unit): Boolean
@@ -22,5 +23,7 @@ interface InstallationPlatform {
 
     fun installAddons(addons: Map<Addon, ByteArray>)
 
-    fun getOptiFineVersion(): String?
+    fun installOptiFine(file: File)
+
+    fun deleteInstall()
 }

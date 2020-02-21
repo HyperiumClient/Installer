@@ -1,0 +1,14 @@
+{
+  "components": [
+    {
+      "uid": "org.lwjgl",
+      "version": "2.9.4-nightly-20150209"
+    },
+    {
+      "important": true,
+      "uid": "net.minecraft",
+      "version": "1.8.9"
+    }
+  ],
+  "formatVersion": 1
+}
