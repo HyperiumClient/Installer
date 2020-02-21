@@ -36,7 +36,7 @@ import java.net.URI
 import java.net.URL
 import java.net.URLEncoder
 
-class AddonsSelectionStage() : View() {
+class AddonsSelectionStage : View() {
     override val root = vbox {
         addClass(InstallerStyles.container)
         label("Addons") { addClass(InstallerStyles.title) }
