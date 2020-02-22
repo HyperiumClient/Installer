@@ -114,7 +114,7 @@ class MultiMCPlatform(private val config: Config) : InstallationPlatform {
     override fun installOptiFine(file: File) {
         try {
             val librariesDir = File(config.path, "instances/Hyperium 1.8.9/libraries")
-            if (!librariesDir.mkdirs()) librariesDir.mkdirs()
+            librariesDir.mkdirs()
             val optifine = File(librariesDir, "OptiFine.jar")
             file.copyTo(optifine, true)
         } catch (e: Exception) {

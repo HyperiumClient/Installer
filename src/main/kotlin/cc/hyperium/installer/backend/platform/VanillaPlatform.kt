@@ -102,7 +102,7 @@ class VanillaPlatform(private val config: Config) : InstallationPlatform {
     override fun installOptiFine(file: File) {
         try {
             val dir = File(config.path, "/libraries/cc/hyperium/OptiFine/LOCAL")
-            if (!dir.exists()) dir.mkdirs()
+            dir.mkdirs()
             val jar = File(dir, "OptiFine-LOCAL.jar")
             file.copyTo(jar, true)
         } catch (e: Exception) {
