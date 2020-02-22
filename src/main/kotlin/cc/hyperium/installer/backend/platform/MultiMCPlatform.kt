@@ -7,7 +7,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import kotlinx.coroutines.launch
 import java.io.File
 import java.util.*
 import java.util.zip.ZipFile
@@ -66,7 +65,7 @@ class MultiMCPlatform(private val config: Config) : InstallationPlatform {
 
         File(instanceDir, "mmc-pack.json").writeText(gson.toJson(baseData))
 
-        instanceDir.installPatch("cc.hyperium", version) {
+        instanceDir.installPatch("cc.hyperium", version) { it ->
             val librariesArray = it["libraries"].asJsonArray
             var librariesBase = JsonArray()
             ZipFile(libFile).use { zip ->
@@ -113,11 +112,14 @@ class MultiMCPlatform(private val config: Config) : InstallationPlatform {
     }
 
     override fun installOptiFine(file: File) {
-        Installer.launch {
+        try {
             val librariesDir = File(config.path, "instances/Hyperium 1.8.9/libraries")
-            librariesDir.mkdirs()
+            if (!librariesDir.mkdirs()) librariesDir.mkdirs()
             val optifine = File(librariesDir, "OptiFine.jar")
             file.copyTo(optifine, true)
+        } catch (e: Exception) {
+            Installer.logger.error("Failed installing OptiFine", e)
+            error("Failed to install OptiFine. Are you sure Minecraft is closed?")
         }
     }
 

@@ -3,14 +3,10 @@ package cc.hyperium.installer.ui.stages
 import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.backend.util.Desktop
-import cc.hyperium.installer.shared.utils.InstallTarget
-import cc.hyperium.installer.shared.utils.MinecraftUtils
-import cc.hyperium.installer.ui.ConfirmationDialog
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
 import javafx.stage.FileChooser
 import kfoenix.jfxbutton
-import kfoenix.jfxtextfield
 import kotlinx.coroutines.launch
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassVisitor
@@ -51,7 +47,6 @@ class OptiFineStage : View() {
                 }.joinToString().also { JFXConfig.optifinePath = it }
             }
         }
-        jfxtextfield(JFXConfig.optifinePathProperty) { addClass(InstallerStyles.desc) }
         jfxbutton("NEXT") {
             addClass(InstallerStyles.longButton)
             action {
@@ -71,13 +66,13 @@ class OptiFineStage : View() {
         }
     }
 
-    fun readOptiFineVersion(): String {
+    private fun readOptiFineVersion(): String {
         val ver = URL("http://optifine.net/version/1.8.9/HD_U.txt").readText().lines().first()
         val fileName = "OptiFine_1.8.9_HD_U_$ver.jar"
         return "http://optifine.net/adloadx?f=${URLEncoder.encode(fileName, "UTF-8")}"
     }
 
-    fun verifyOptiFineVersion(jar: File): String? {
+    private fun verifyOptiFineVersion(jar: File): String? {
         try {
             val jarfile = JarFile(jar)
             val entry = jarfile.getEntry("Config.class") ?: jarfile.getEntry("net/optifine/Config.class")

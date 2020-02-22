@@ -19,7 +19,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import kotlinx.coroutines.launch
 import java.io.File
 import java.time.Instant
 import java.util.zip.ZipFile
@@ -41,7 +40,7 @@ class VanillaPlatform(private val config: Config) : InstallationPlatform {
         val file = File(librariesDir, "Hyperium-LOCAL.jar")
         file.writeBytes(lib)
         var librariesArray = JsonArray()
-        ZipFile(file).use {
+        ZipFile(file).use { it ->
             val entry = it.getEntry("libraries.base.json")
             if (entry != null) {
                 val stream = it.getInputStream(entry).bufferedReader()
@@ -57,9 +56,15 @@ class VanillaPlatform(private val config: Config) : InstallationPlatform {
             val library = JsonObject()
             library.addProperty("name", "cc.hyperium:OptiFine:LOCAL")
             json.getAsJsonArray("libraries").add(library)
-            json.addProperty("minecraftArguments", json["minecraftArguments"].asString + " --tweakClass optifine.OptiFineForgeTweaker")
+            json.addProperty(
+                "minecraftArguments",
+                json["minecraftArguments"].asString + " --tweakClass optifine.OptiFineForgeTweaker"
+            )
         }
-        json.addProperty("minecraftArguments", json["minecraftArguments"].asString + " --tweakClass cc.hyperium.launch.HyperiumTweaker")
+        json.addProperty(
+            "minecraftArguments",
+            json["minecraftArguments"].asString + " --tweakClass cc.hyperium.launch.HyperiumTweaker"
+        )
         val librariesArrayOriginal = json.getAsJsonArray("libraries")
         for (element in librariesArray) {
             librariesArrayOriginal.add(element)
@@ -95,11 +100,14 @@ class VanillaPlatform(private val config: Config) : InstallationPlatform {
     }
 
     override fun installOptiFine(file: File) {
-        Installer.launch {
+        try {
             val dir = File(config.path, "/libraries/cc/hyperium/OptiFine/LOCAL")
-            dir.mkdirs()
+            if (!dir.exists()) dir.mkdirs()
             val jar = File(dir, "OptiFine-LOCAL.jar")
             file.copyTo(jar, true)
+        } catch (e: Exception) {
+            Installer.logger.error("Failed installing OptiFine", e)
+            error("Failed to install OptiFine. Are you sure Minecraft is closed?")
         }
     }
 
