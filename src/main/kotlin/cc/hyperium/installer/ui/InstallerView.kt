@@ -42,6 +42,6 @@ class InstallerView : View("Hyperium Installer") {
     override val root = tabPane
 
     init {
-        icon = resources.imageview("/assets/logo_solid.png", true)
+        icon = resources.imageview("/assets/logo.png", true)
     }
 }

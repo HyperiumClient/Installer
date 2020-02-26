@@ -30,7 +30,7 @@ class MultiMCPlatform(private val config: Config) : InstallationPlatform {
         val iconsDir = File(config.path, "icons")
         iconsDir.mkdirs()
         val iconFile = File(iconsDir, "hyperium.png")
-        iconFile.writeBytes(javaClass.getResourceAsStream("/assets/logo_solid.png").use { it.readBytes() })
+        iconFile.writeBytes(javaClass.getResourceAsStream("/assets/logo.png").use { it.readBytes() })
 
         val instanceCfgFile = File(instanceDir, "instance.cfg")
         val props = Properties()
