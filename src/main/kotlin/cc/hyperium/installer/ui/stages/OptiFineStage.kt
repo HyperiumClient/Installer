@@ -1,8 +1,20 @@
+/*
+ * Copyright © 2020 by Sk1er LLC
+ *
+ * All rights reserved.
+ *
+ * Sk1er LLC
+ * 444 S Fulton Ave
+ * Mount Vernon, NY
+ * sk1er.club
+ */
+
 package cc.hyperium.installer.ui.stages
 
 import cc.hyperium.installer.backend.Installer
 import cc.hyperium.installer.backend.config.JFXConfig
 import cc.hyperium.installer.backend.util.Desktop
+import cc.hyperium.installer.ui.ConfirmationDialog
 import cc.hyperium.installer.ui.InstallerStyles
 import cc.hyperium.installer.ui.InstallerView
 import javafx.stage.FileChooser
@@ -53,7 +65,11 @@ class OptiFineStage : View() {
                 if (verifyOptiFineVersion(File(JFXConfig.optifinePath)) == "1.8.9") {
                     find<InstallerView> { tabPane.selectionModel.selectNext() }
                 } else {
-                    // TODO: let user know they fucked up
+                    ConfirmationDialog(
+                        "OptiFine Installation",
+                        "Please select a valid OptiFine version.",
+                        true
+                    ) { }.openModal()
                 }
             }
         }

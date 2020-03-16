@@ -24,7 +24,7 @@ object JFXConfig : Config {
     val ramProperty = SimpleIntegerProperty(2)
     val pathProperty = SimpleObjectProperty(MinecraftUtils.getMinecraftDir().canonicalPath)
     val optifineProperty = SimpleBooleanProperty(false)
-    val optifinePathProperty = SimpleObjectProperty(System.getProperty("user.home"))
+    val optifinePathProperty = SimpleObjectProperty("why is this being cringe")
     val versionProperty = SimpleObjectProperty<Version>()
     val cliProperty = SimpleBooleanProperty(false)
     val cleanInstallProperty = SimpleBooleanProperty(false)
