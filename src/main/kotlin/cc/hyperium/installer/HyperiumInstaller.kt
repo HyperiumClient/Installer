@@ -28,7 +28,7 @@ class InstallerApp : App(InstallerView::class, InstallerStyles::class)
 
 fun main(args: Array<String>) {
     // Update to current date when changing version
-    Installer.logger.info("Running Hyperium installer version 1.5/March 12th 2020")
+    Installer.logger.info("Running Hyperium installer version 1.5.1/March 18th 2020")
 
     if (args.isEmpty() || (System.console() == null && JFXConfig.cli))
         try {

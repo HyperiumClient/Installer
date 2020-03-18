@@ -18,7 +18,7 @@ plugins {
 }
 
 group = "cc.hyperium.installer"
-version = "1.5"
+version = "1.5.1"
 
 application {
     mainClassName = "cc.hyperium.installer.HyperiumInstallerKt"
