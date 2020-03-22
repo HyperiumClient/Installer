@@ -74,9 +74,11 @@ object Installer : CoroutineScope {
             logger.info("Installing profile")
             callback("Installing profile...")
             plat.installProfile()
-            logger.info("Installing OptiFine")
-            callback("Installing OptiFine...")
-            plat.installOptiFine(File(config.optifinePath))
+            if (config.optifine) {
+                logger.info("Installing OptiFine")
+                callback("Installing OptiFine...")
+                plat.installOptiFine(File(config.optifinePath))
+            }
             logger.info("Downloading addons")
             callback("Downloading addons...")
             val addons = fetchAddons(config)
