@@ -55,7 +55,7 @@ class OptiFineStage : View() {
                     arrayOf(FileChooser.ExtensionFilter("JAR Files (*.jar)", "*.jar")),
                     FileChooserMode.Single
                 ) {
-                    initialDirectory = File(System.getProperty("user.home"), "Downloads")
+                    initialDirectory = File(System.getProperty("user.home"))
                 }.joinToString().also { JFXConfig.optifinePath = it }
             }
         }
