@@ -28,7 +28,7 @@ class InstallerApp : App(InstallerView::class, InstallerStyles::class)
 
 fun main(args: Array<String>) {
     // Update to current date when changing version
-    Installer.logger.info("Running Hyperium installer version 1.5.3/March 27th 2020")
+    Installer.logger.info("Running Hyperium installer version 1.5.4/December 24th 2020")
 
     if (args.isEmpty() || (System.console() == null && JFXConfig.cli))
         try {
@@ -41,7 +41,7 @@ fun main(args: Array<String>) {
             }
             JOptionPane.showMessageDialog(
                 null,
-                "Please make sure that JavaFX is installed on your system.",
+                "Please make sure that JavaFX is installed on your system. Note: Hyperium is currently not supported",
                 "Class not found",
                 JOptionPane.WARNING_MESSAGE
             )

@@ -21,14 +21,15 @@ import tornadofx.tab
 class InstallerView : View("Hyperium Installer") {
     val tabPane = jfxtabpane {
         tab(find<WelcomeStage>()) // 0
-        tab(find<TargetSelectionStage>()) // 1
-        tab(find<RamSelectionStage>()) // 2
-        tab(find<VersionSelectionStage>()) // 3
-        tab(find<AddonsSelectionStage>()) // 4
-        tab(find<OptiFineStage>()) // 5
-        add(find<AgreementStage>()) // 6
-        tab(find<ProgressStage>()) // 7
-        tab(find<FinishedStage>()) // 8
+        tab(find<WarningStage>()) // 1
+        tab(find<TargetSelectionStage>()) // 2
+        tab(find<RamSelectionStage>()) // 3
+        tab(find<VersionSelectionStage>()) // 4
+        tab(find<AddonsSelectionStage>()) // 5
+        tab(find<OptiFineStage>()) // 6
+        add(find<AgreementStage>()) // 7
+        tab(find<ProgressStage>()) // 8
+        tab(find<FinishedStage>()) // 9
 
         tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
         setOnKeyPressed {

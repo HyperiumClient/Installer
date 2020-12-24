@@ -59,8 +59,8 @@ class AgreementStage : View() {
             addClass(InstallerStyles.backButton)
             action {
                 if (JFXConfig.optifine) {
-                    find<InstallerView> { tabPane.selectionModel.select(5) }
-                } else find<InstallerView> { tabPane.selectionModel.select(4) }
+                    find<InstallerView> { tabPane.selectionModel.select(6) }
+                } else find<InstallerView> { tabPane.selectionModel.select(5) }
             }
         }
     }
