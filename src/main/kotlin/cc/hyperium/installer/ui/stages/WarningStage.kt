@@ -24,19 +24,14 @@ import java.net.URI
 class WarningStage : View() {
     override val root = vbox {
         addClass(InstallerStyles.container)
-        label("Hyperium isn't actively developed") { addClass(InstallerStyles.title) }
-        label("You won't get any support with Hyperium anymore.") {
-            addClass(
-                InstallerStyles.desc
-            )
-        }
-        label("Our forge mods are both better and actively developed.") {
+        label("Hyperium is no longer maintained") { addClass(InstallerStyles.title) }
+        label("We cannot guarantee everything will work and will no longer provide support.") {
             addClass(
                 InstallerStyles.desc
             )
         }
 
-        hyperlink("Click here to go to Sk1er.club") {
+        hyperlink("Click here to go to Sk1er.club and see the latest we have to offer") {
             addClass(
                 InstallerStyles.desc
             )
