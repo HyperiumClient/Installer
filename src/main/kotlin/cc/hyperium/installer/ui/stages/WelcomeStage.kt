@@ -36,9 +36,7 @@ class WelcomeStage : View() {
             addClass(InstallerStyles.longButton)
             action {
                 find<InstallerView> {
-                    if (JFXConfig.advanced)
-                        tabPane.selectionModel.selectNext()
-                    else tabPane.selectionModel.select(4)
+                    tabPane.selectionModel.selectNext()
                 }
             }
         }
